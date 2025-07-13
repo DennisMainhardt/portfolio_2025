@@ -65,6 +65,34 @@ All colors MUST be HSL.
   }
 }
 
+.glass-card-interactive {
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card-interactive::before {
+  content: '';
+  position: absolute;
+  top: var(--my, 0px);
+  left: var(--mx, 0px);
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.group:hover .glass-card-interactive::before {
+  opacity: 1;
+}
+
 @layer components {
   .text-gradient {
     @apply bg-gradient-to-r from-electric-blue via-plasma-violet to-neon-green bg-clip-text text-transparent;
@@ -202,4 +230,17 @@ All colors MUST be HSL.
   50% {
     box-shadow: 0 8px 25px rgba(0, 217, 255, 0.2);
   }
+}
+@keyframes pulse-border {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--pulse-color-rgb, 57, 255, 20), 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(var(--pulse-color-rgb, 57, 255, 20), 0);
+  }
+}
+
+.animate-pulse-border {
+  animation: pulse-border 2s infinite;
 }
