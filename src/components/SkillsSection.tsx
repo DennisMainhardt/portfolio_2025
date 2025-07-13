@@ -37,7 +37,7 @@ const SkillsSection = () => {
         measureContentHeight(index);
       });
     }, 100); // Small delay to ensure content is rendered
-    
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -53,13 +53,13 @@ const SkillsSection = () => {
 
   const handleSkillClick = (index: number) => {
     const isCurrentlyOpen = openSkillPaths.includes(index);
-    
+
     if (!isCurrentlyOpen) {
       // Ensure height is measured before opening
       if (!contentHeights[index]) {
         measureContentHeight(index);
       }
-      
+
       // Open after a brief delay to ensure height is calculated
       setTimeout(() => {
         setOpenSkillPaths((prev) => [...prev, index]);
@@ -83,13 +83,13 @@ const SkillsSection = () => {
       <div className="container mx-auto relative z-10 max-w-4xl pointer-events-none">
         {/* Header */}
         <div className="text-center mb-16 relative pointer-events-auto">
-          <h2 className={`text-5xl md:text-7xl font-bold mb-8 transition-all duration-1000 delay-200 relative ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          <h2 className={`text-3xl sm:text-5xl md:text-7xl font-bold mb-8 transition-all duration-1000 delay-200 relative ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}>
             <span className="text-gradient bg-gradient-to-r from-electric-blue via-plasma-violet to-neon-green bg-clip-text text-transparent">
               Technical Expertise
             </span>
           </h2>
-          <p className={`text-lg text-white/80 max-w-3xl mx-auto leading-relaxed transition-all duration-1000 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          <p className={`text-base sm:text-lg text-white/80 max-w-3xl mx-auto leading-relaxed transition-all duration-1000 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}>
             Where <span className="text-electric-blue font-bold">frontend mastery</span> meets{' '}
             <span className="text-plasma-violet font-bold">AI innovation</span> —{' '}
@@ -142,28 +142,28 @@ const SkillsSection = () => {
                         pointerEvents: "none"
                       }}
                     >
-                      <SkillDetail 
-                        skill={path} 
-                        isVisible={isVisible} 
-                        onCollapse={() => {}}
+                      <SkillDetail
+                        skill={path}
+                        isVisible={isVisible}
+                        onCollapse={() => { }}
                       />
                     </div>
-                    
+
                     <AnimatePresence>
                       {isActive && contentHeights[index] && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
-                          animate={{ 
-                            height: contentHeights[index], 
-                            opacity: 1 
+                          animate={{
+                            height: contentHeights[index],
+                            opacity: 1
                           }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
                           style={{ overflow: "hidden" }}
                         >
-                          <SkillDetail 
-                            skill={path} 
-                            isVisible={isVisible} 
+                          <SkillDetail
+                            skill={path}
+                            isVisible={isVisible}
                             onCollapse={() => handleSkillClick(index)}
                           />
                         </motion.div>

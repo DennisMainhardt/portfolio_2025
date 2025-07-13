@@ -31,17 +31,27 @@ const ParticleField = ({ isVisible, interactive = true }: ParticleFieldProps) =>
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const handleMouseMove = (event: MouseEvent) => {
+    const handleInteractionMove = (x: number, y: number) => {
       if (canvas) {
         const rect = canvas.getBoundingClientRect();
-        mouseRef.current.x = event.clientX - rect.left;
-        mouseRef.current.y = event.clientY - rect.top;
+        mouseRef.current.x = x - rect.left;
+        mouseRef.current.y = y - rect.top;
       }
     };
 
-    const handleMouseLeave = () => {
+    const handleInteractionEnd = () => {
       mouseRef.current.x = null;
       mouseRef.current.y = null;
+    };
+
+    const handleMouseMove = (event: MouseEvent) => {
+      handleInteractionMove(event.clientX, event.clientY);
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      if (event.touches.length > 0) {
+        handleInteractionMove(event.touches[0].clientX, event.touches[0].clientY);
+      }
     };
 
     const resizeCanvas = () => {
@@ -52,11 +62,15 @@ const ParticleField = ({ isVisible, interactive = true }: ParticleFieldProps) =>
         canvas.width = parent.clientWidth;
         canvas.height = parent.clientHeight;
       }
+
+      const requiredParticleCount = window.innerWidth < 768 ? 100 : 200;
+      if (particlesRef.current.length !== requiredParticleCount) {
+        particlesRef.current = createParticles(requiredParticleCount);
+      }
     };
 
-    const createParticles = () => {
+    const createParticles = (count: number) => {
       const particles: Particle[] = [];
-      const particleCount = 250;
       const colors = [
         "0, 217, 255",   // electric-blue
         "157, 78, 221",  // plasma-violet
@@ -64,7 +78,7 @@ const ParticleField = ({ isVisible, interactive = true }: ParticleFieldProps) =>
         "250, 204, 21",  // yellow-400
       ];
 
-      for (let i = 0; i < particleCount; i++) {
+      for (let i = 0; i < count; i++) {
         const initial_vx = (Math.random() - 0.5) * 0.5;
         const initial_vy = (Math.random() - 0.5) * 0.5;
         particles.push({
@@ -148,19 +162,22 @@ const ParticleField = ({ isVisible, interactive = true }: ParticleFieldProps) =>
     };
 
     resizeCanvas();
-    particlesRef.current = createParticles();
     animate();
 
     if (interactive) {
       window.addEventListener('mousemove', handleMouseMove);
-      canvas.addEventListener('mouseleave', handleMouseLeave);
+      window.addEventListener('touchmove', handleTouchMove);
+      canvas.addEventListener('mouseleave', handleInteractionEnd);
+      canvas.addEventListener('touchend', handleInteractionEnd);
     }
     window.addEventListener('resize', resizeCanvas);
 
     return () => {
       if (interactive) {
         window.removeEventListener('mousemove', handleMouseMove);
-        canvas.removeEventListener('mouseleave', handleMouseLeave);
+        window.removeEventListener('touchmove', handleTouchMove);
+        canvas.removeEventListener('mouseleave', handleInteractionEnd);
+        canvas.removeEventListener('touchend', handleInteractionEnd);
       }
       window.removeEventListener('resize', resizeCanvas);
       if (animationRef.current) {

@@ -89,61 +89,63 @@ const SkillDetail = ({ skill, isVisible, onCollapse }: SkillDetailProps) => {
   const colorClasses = getColorClasses(skill.color);
 
   return (
-    <div 
-      className="pt-2 pb-6 cursor-pointer" 
+    <div
+      className="pt-2 pb-6 cursor-pointer"
       onClick={onCollapse}
       title="Click to collapse"
       style={{ contain: "layout" }}
     >
-      <div className={`h-px mx-6 mb-6 bg-gradient-to-r ${colorClasses.separator}`} />
-      <div className="px-6 space-y-6">
-        {/* Focus Areas */}
-        <div>
-          <div className="flex items-center gap-3 mb-3">
-            <Target 
-              className={`w-4 h-4 ${colorClasses.text}`} 
-              style={{ width: "16px", height: "16px", flexShrink: 0 }}
-            />
-            <h4 className="text-white font-bold text-base">Focus Areas</h4>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            {content.focusAreas.map((area, index) => {
-              const IconComponent = content.icons[index] || Target;
-              return (
-                <div
-                  key={area}
-                  className="flex items-center gap-3 p-3 rounded-lg bg-black/20 border border-white/10 hover:border-white/20 hover:bg-black/30 transition-all"
-                >
+      <div className="pt-2 pb-6 px-4 sm:px-6">
+        <div className={`h-px mx-0 sm:mx-6 mb-6 bg-gradient-to-r ${colorClasses.separator}`} />
+        <div className="space-y-6">
+          {/* Focus Areas */}
+          <div>
+            <div className="flex items-center gap-3 mb-3">
+              <Target
+                className={`w-4 h-4 ${colorClasses.text}`}
+                style={{ width: "16px", height: "16px", flexShrink: 0 }}
+              />
+              <h4 className="text-white font-bold text-base">Focus Areas</h4>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {content.focusAreas.map((area, index) => {
+                const IconComponent = content.icons[index] || Target;
+                return (
                   <div
-                    className={`flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full ${colorClasses.bg}`}
-                    style={{ minWidth: "28px", minHeight: "28px" }}
+                    key={area}
+                    className="flex items-center gap-3 p-2 sm:p-3 rounded-lg bg-black/20 border border-white/10 hover:border-white/20 hover:bg-black/30 transition-all"
                   >
-                    <IconComponent 
-                      className={`w-4 h-4 ${colorClasses.text}`} 
-                      style={{ width: "16px", height: "16px" }}
-                    />
+                    <div
+                      className={`flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full ${colorClasses.bg}`}
+                      style={{ minWidth: "28px", minHeight: "28px" }}
+                    >
+                      <IconComponent
+                        className={`w-4 h-4 ${colorClasses.text}`}
+                        style={{ width: "16px", height: "16px" }}
+                      />
+                    </div>
+                    <span className="text-white/90 font-medium text-sm sm:text-base">
+                      {area}
+                    </span>
                   </div>
-                  <span className="text-white/90 font-medium text-base">
-                    {area}
-                  </span>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
-        {/* Core Technologies */}
-        <div>
-          <div className="flex items-center gap-3 mb-3">
-            <TrendingUp 
-              className={`w-4 h-4 ${colorClasses.text}`} 
-              style={{ width: "16px", height: "16px", flexShrink: 0 }}
-            />
-            <h4 className="text-white font-bold text-base">Core Technologies</h4>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {skill.keyTech.slice(0, 6).map((tech) => (
-              <TechBadge key={tech} tech={tech} color={skill.color} />
-            ))}
+          {/* Core Technologies */}
+          <div>
+            <div className="flex items-center gap-3 mb-3">
+              <TrendingUp
+                className={`w-4 h-4 ${colorClasses.text}`}
+                style={{ width: "16px", height: "16px", flexShrink: 0 }}
+              />
+              <h4 className="text-white font-bold text-base">Core Technologies</h4>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {skill.keyTech.slice(0, 6).map((tech) => (
+                <TechBadge key={tech} tech={tech} color={skill.color} />
+              ))}
+            </div>
           </div>
         </div>
       </div>

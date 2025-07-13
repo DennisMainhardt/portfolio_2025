@@ -193,10 +193,13 @@ const SkillPath = ({ path, index, isActive, onClick }: SkillPathProps) => {
   };
 
   return (
-    <div className="group cursor-pointer p-6" onClick={onClick}>
-      <div className="flex items-start gap-5">
+    <div
+      className="group cursor-pointer p-4 sm:p-6"
+      onClick={onClick}
+    >
+      <div className="flex items-start gap-4 sm:gap-5">
         <div
-          className={`relative p-3 rounded-xl transition-all duration-300
+          className={`relative p-2 sm:p-3 rounded-xl transition-all duration-300
             ${isActive ? `shadow-lg shadow-${path.color}/25` : ""}
             bg-black/20`}
         >
@@ -212,7 +215,7 @@ const SkillPath = ({ path, index, isActive, onClick }: SkillPathProps) => {
 
         <div className="flex-1 min-w-0 pt-1">
           <h3
-            className={`text-xl font-bold transition-colors duration-300 ${getActiveColorWithOpacity(
+            className={`text-lg sm:text-xl font-bold transition-colors duration-300 ${getActiveColorWithOpacity(
               "text-white group-hover:text-white",
               "text-{color}"
             )}`}
@@ -220,7 +223,7 @@ const SkillPath = ({ path, index, isActive, onClick }: SkillPathProps) => {
             {path.title}
           </h3>
           <p
-            className={`text-base font-medium transition-all duration-300 mt-1.5 ${getSubtitleColor()}`}
+            className={`text-xs sm:text-base font-medium transition-all duration-300 mt-1.5 ${getSubtitleColor()} overflow-hidden text-ellipsis sm:whitespace-normal sm:overflow-visible`}
           >
             {path.subtitle}
           </p>
