@@ -8,7 +8,9 @@ import { skillPaths } from "./skills/skillsData";
 const SkillsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeSkillPath, setActiveSkillPath] = useState(0); // Pre-select first element (Frontend Mastery)
+  const [skillPathsHeight, setSkillPathsHeight] = useState<number>(0);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const skillPathsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -26,6 +28,29 @@ const SkillsSection = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  // Height matching effect
+  useEffect(() => {
+    const measureHeight = () => {
+      if (skillPathsRef.current) {
+        const height = skillPathsRef.current.offsetHeight;
+        setSkillPathsHeight(height);
+      }
+    };
+
+    measureHeight();
+    
+    // Re-measure on window resize
+    window.addEventListener('resize', measureHeight);
+    
+    // Re-measure when activeSkillPath changes (in case content changes)
+    const timer = setTimeout(measureHeight, 100);
+    
+    return () => {
+      window.removeEventListener('resize', measureHeight);
+      clearTimeout(timer);
+    };
+  }, [activeSkillPath, isVisible]);
 
   // Removed auto-scrolling useEffect
 
@@ -84,11 +109,14 @@ const SkillsSection = () => {
         </div>
 
         {/* Enhanced Main Content Grid with Height Matching */}
-        <div className="grid lg:grid-cols-12 gap-16 items-stretch">
+        <div className="grid lg:grid-cols-12 gap-16 lg:items-stretch" style={{ gridTemplateRows: 'auto', minHeight: 'fit-content' }}>
           {/* Skill Paths - Enhanced Layout */}
-          <div className={`lg:col-span-7 flex flex-col transition-all duration-1000 delay-600 ${
-            isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
-          }`}>
+          <div 
+            ref={skillPathsRef}
+            className={`lg:col-span-7 flex flex-col transition-all duration-1000 delay-600 ${
+              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
+            }`}
+          >
             <div className="mb-10">
               <h3 className="text-3xl font-bold text-white mb-4">Skill Pathways</h3>
               <p className="text-white/70 text-base leading-relaxed">
@@ -110,23 +138,24 @@ const SkillsSection = () => {
           </div>
 
           {/* Active Skill Detail - Enhanced with Particle Background and Height Matching */}
-          <div className={`lg:col-span-5 flex flex-col transition-all duration-1000 delay-800 ${
-            isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
-          }`}>
-            <div className="sticky top-8 flex flex-col h-full">
-              <div className="mb-8">
-                <h3 className="text-3xl font-bold text-white mb-3">Deep Dive</h3>
-                <p className="text-white/70 text-base">
-                  Detailed breakdown of selected expertise area
-                </p>
-              </div>
-              
-              <div className="flex-1">
-                <SkillDetail
-                  skill={skillPaths[activeSkillPath]}
-                  isVisible={isVisible}
-                />
-              </div>
+          <div 
+            className={`lg:col-span-5 flex flex-col transition-all duration-1000 delay-800 ${
+              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
+            }`}
+            style={{ height: skillPathsHeight > 0 ? `${skillPathsHeight}px` : 'auto' }}
+          >
+            <div className="mb-10">
+              <h3 className="text-3xl font-bold text-white mb-4">Deep Dive</h3>
+              <p className="text-white/70 text-base leading-relaxed">
+                Detailed breakdown of selected expertise area
+              </p>
+            </div>
+            
+            <div className="flex-1 flex flex-col">
+              <SkillDetail
+                skill={skillPaths[activeSkillPath]}
+                isVisible={isVisible}
+              />
             </div>
           </div>
         </div>

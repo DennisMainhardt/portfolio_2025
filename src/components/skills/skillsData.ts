@@ -1,41 +1,45 @@
-
-import { Code2, Brain, Rocket, Zap } from "lucide-react";
+import { Code2, Brain, Rocket, Zap } from 'lucide-react';
 
 export const skillPaths = [
   {
     icon: Code2,
-    title: "Frontend Mastery",
-    subtitle: "4+ Years of Modern Web Development",
-    description: "React ecosystem expert with TypeScript proficiency",
-    keyTech: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
-    highlight: "Building scalable, performant web applications",
-    color: "electric-blue"
+    title: 'Frontend Mastery',
+    subtitle: 'Modern Web Development',
+    description: 'Building scalable, user-friendly web applications',
+    keyTech: ['React', 'TypeScript', 'Next.js', 'HTML/CSS'],
+    highlight: 'Building scalable, performant web applications',
+    color: 'electric-blue',
   },
   {
     icon: Brain,
-    title: "AI Integration",
-    subtitle: "Cutting-Edge AI Implementation",
-    description: "OpenAI & Claude API integration specialist",
-    keyTech: ["OpenAI API", "Claude API", "Prompt Engineering", "LLM Integration"],
-    highlight: "Bridging AI capabilities with user experiences",
-    color: "plasma-violet"
+    title: 'AI Integration',
+    subtitle: 'Cutting-Edge AI Implementation',
+    description: 'Experimenting with modern AI tools and API integrations',
+    keyTech: [
+      'OpenAI API',
+      'Anthropic Claude API',
+      'Prompt Engineering',
+      'Generative AI',
+    ],
+    highlight: 'Bridging AI capabilities with user experiences',
+    color: 'plasma-violet',
   },
   {
     icon: Rocket,
-    title: "Full-Stack Vision",
-    subtitle: "End-to-End Development",
-    description: "Firebase, serverless, and modern architecture",
-    keyTech: ["Firebase", "GraphQL", "REST APIs", "Serverless"],
-    highlight: "From concept to production deployment",
-    color: "neon-green"
+    title: 'Full-Stack Vision',
+    subtitle: 'Expanding Development Skills',
+    description: 'Growing from frontend into full-stack capabilities',
+    keyTech: ['Firebase/Firestore', 'REST APIs', 'GraphQL', 'Node.js'],
+    highlight: 'From concept to production deployment',
+    color: 'neon-green',
   },
   {
     icon: Zap,
-    title: "Developer Excellence",
-    subtitle: "Professional Workflow & Quality",
-    description: "Agile methodologies with modern tooling",
-    keyTech: ["Git", "CI/CD", "Testing", "Agile/Scrum"],
-    highlight: "Delivering quality code at enterprise scale",
-    color: "yellow-400"
-  }
+    title: 'Professional Workflow',
+    subtitle: 'Modern Development Practices',
+    description: 'Agile methodologies with modern tooling',
+    keyTech: ['Git', 'CI/CD', 'Jest/Cypress', 'Agile/Scrum/Jira'],
+    highlight: 'Delivering quality code at enterprise scale',
+    color: 'yellow-400',
+  },
 ];
