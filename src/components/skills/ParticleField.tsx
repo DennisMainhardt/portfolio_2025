@@ -37,7 +37,7 @@ const ParticleField = ({ isVisible, color = 'electric-blue' }: ParticleFieldProp
     const createParticles = () => {
       const particles: Particle[] = [];
       const particleCount = 20;
-      
+
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * canvas.width,
@@ -46,9 +46,9 @@ const ParticleField = ({ isVisible, color = 'electric-blue' }: ParticleFieldProp
           vy: (Math.random() - 0.5) * 0.5,
           size: Math.random() * 2 + 0.5,
           opacity: Math.random() * 0.3 + 0.1,
-          color: color === 'electric-blue' ? '0, 217, 255' : 
-                 color === 'plasma-violet' ? '157, 78, 221' :
-                 color === 'neon-green' ? '57, 255, 20' : '255, 255, 255'
+          color: color === 'electric-blue' ? '0, 217, 255' :
+            color === 'plasma-violet' ? '157, 78, 221' :
+              color === 'neon-green' ? '57, 255, 20' : '255, 255, 255'
         });
       }
       return particles;
@@ -61,7 +61,7 @@ const ParticleField = ({ isVisible, color = 'electric-blue' }: ParticleFieldProp
       }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+
       particlesRef.current.forEach(particle => {
         particle.x += particle.vx;
         particle.y += particle.vy;

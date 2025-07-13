@@ -1,5 +1,6 @@
 
 import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import SkillPath from "./skills/SkillPath";
 import SkillDetail from "./skills/SkillDetail";
 import ParticleField from "./skills/ParticleField";
@@ -7,7 +8,7 @@ import { skillPaths } from "./skills/skillsData";
 
 const SkillsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [activeSkillPath, setActiveSkillPath] = useState(0); // Pre-select first element (Frontend Mastery)
+  const [openSkillPaths, setOpenSkillPaths] = useState<number[]>([0]);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -17,7 +18,7 @@ const SkillsSection = () => {
           setIsVisible(true);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     );
 
     if (sectionRef.current) {
@@ -27,110 +28,132 @@ const SkillsSection = () => {
     return () => observer.disconnect();
   }, []);
 
+  const handleSkillClick = (index: number) => {
+    setOpenSkillPaths((prev) =>
+      prev.includes(index)
+        ? prev.filter((i) => i !== index)
+        : [...prev, index]
+    );
+  };
+
   return (
-    <section ref={sectionRef} className="py-32 px-4 md:px-8 relative overflow-hidden">
-      {/* Enhanced Background Effects with Animated Aura */}
+    <section ref={sectionRef} className="py-24 px-4 md:px-8 relative overflow-hidden">
+      {/* Background Effects */}
       <div className="absolute inset-0">
-        {/* Animated Background Particles */}
         <ParticleField isVisible={isVisible} color="electric-blue" />
-        
-        {/* Enhanced Gradient Orbs with Pulse Animation */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-electric-blue/8 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-plasma-violet/6 rounded-full blur-3xl animate-pulse delay-1000" />
         <div className="absolute top-1/2 left-0 w-80 h-80 bg-neon-green/5 rounded-full blur-3xl animate-pulse delay-2000" />
-        
-        {/* Background Lighting Pulses */}
-        <div className={`absolute top-1/4 right-0 w-64 h-64 bg-gradient-radial from-electric-blue/10 to-transparent rounded-full transition-opacity duration-2000 ${isVisible ? 'animate-glow-pulse' : 'opacity-0'}`} />
-        <div className={`absolute bottom-0 left-1/3 w-80 h-80 bg-gradient-radial from-plasma-violet/8 to-transparent rounded-full transition-opacity duration-2000 delay-1000 ${isVisible ? 'animate-glow-pulse' : 'opacity-0'}`} />
-        
-        {/* Animated Grid Pattern */}
-        <div className="absolute inset-0 opacity-[0.03]">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `
-              linear-gradient(rgba(0, 217, 255, 0.15) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0, 217, 255, 0.15) 1px, transparent 1px)
-            `,
-            backgroundSize: '60px 60px',
-            animation: 'drift 25s ease-in-out infinite'
-          }} />
-        </div>
       </div>
 
-      <div className="container mx-auto relative z-10">
-        {/* Enhanced Header with Aura Effect */}
-        <div className="text-center mb-24 relative">
-          {/* Title Aura */}
-          <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-32 bg-gradient-radial from-electric-blue/15 via-plasma-violet/8 to-transparent blur-3xl transition-opacity duration-2000 ${isVisible ? 'opacity-100' : 'opacity-0'}`} />
-          
-          <h2 className={`text-6xl md:text-8xl font-bold mb-10 transition-all duration-1000 delay-200 relative ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}>
+      <div className="container mx-auto relative z-10 max-w-4xl">
+        {/* Header */}
+        <div className="text-center mb-16 relative">
+          <h2 className={`text-5xl md:text-7xl font-bold mb-8 transition-all duration-1000 delay-200 relative ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            }`}>
             <span className="text-gradient bg-gradient-to-r from-electric-blue via-plasma-violet to-neon-green bg-clip-text text-transparent">
               Technical Expertise
             </span>
-            {/* Text glow effect */}
-            <div className="absolute inset-0 text-gradient bg-gradient-to-r from-electric-blue/50 via-plasma-violet/50 to-neon-green/50 bg-clip-text text-transparent blur-sm" />
           </h2>
-          
-          <p className={`text-xl text-white/80 max-w-3xl mx-auto leading-relaxed transition-all duration-1000 delay-400 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}>
+          <p className={`text-lg text-white/80 max-w-3xl mx-auto leading-relaxed transition-all duration-1000 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            }`}>
             Where <span className="text-electric-blue font-bold">frontend mastery</span> meets{' '}
             <span className="text-plasma-violet font-bold">AI innovation</span> —{' '}
             delivering cutting-edge solutions that drive business growth
           </p>
         </div>
 
-        {/* Enhanced Main Content with Exact Height Matching */}
-        <div className="grid lg:grid-cols-12 gap-16" style={{ gridTemplateRows: '1fr' }}>
-          {/* Skill Paths - Enhanced Layout */}
-          <div className={`lg:col-span-7 flex flex-col h-full transition-all duration-1000 delay-600 ${
-            isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
-          }`}>
-            <div className="mb-12">
-              <h3 className="text-3xl font-bold text-white mb-4">Skill Pathways</h3>
-              <p className="text-white/70 text-base leading-relaxed">
-                Interactive overview of my technical competencies and specializations
-              </p>
-            </div>
-            
-            <div className="space-y-10 flex-1">
-              {skillPaths.map((path, index) => (
-                <SkillPath
-                  key={path.title}
-                  path={path}
-                  index={index}
-                  isActive={activeSkillPath === index}
-                  onClick={() => setActiveSkillPath(index)}
+        {/* Accordion Layout */}
+        <div className="space-y-4">
+          {skillPaths.map((path, index) => {
+            const isActive = openSkillPaths.includes(index);
+            return (
+              <div
+                key={path.title}
+                className={`relative overflow-hidden rounded-2xl transition-all duration-500 border ${isActive
+                  ? getActiveBorderColorClass(path.color) +
+                  " " +
+                  getActiveShadowClass(path.color)
+                  : "border-white/10 hover:border-white/20"
+                  }`}
+              >
+                <div
+                  className={`absolute inset-0 transition-all duration-500 ${isActive
+                    ? getActiveBgClass(path.color)
+                    : "bg-white/5 opacity-0 group-hover:opacity-100"
+                    }`}
                 />
-              ))}
-            </div>
-          </div>
-
-          {/* Active Skill Detail - Enhanced with Particle Background and Height Matching */}
-          <div className={`lg:col-span-5 flex flex-col h-full transition-all duration-1000 delay-800 ${
-            isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
-          }`}>
-            <div className="mb-12">
-              <h3 className="text-3xl font-bold text-white mb-4">Deep Dive</h3>
-              <p className="text-white/70 text-base leading-relaxed">
-                Detailed breakdown of selected expertise area
-              </p>
-            </div>
-            
-            <div className="flex-1">
-              <SkillDetail
-                skill={skillPaths[activeSkillPath]}
-                isVisible={isVisible}
-              />
-            </div>
-          </div>
+                <div className="relative">
+                  <SkillPath
+                    path={path}
+                    index={index}
+                    isActive={isActive}
+                    onClick={() => handleSkillClick(index)}
+                  />
+                  <AnimatePresence>
+                    {isActive && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                      >
+                        <SkillDetail skill={path} isVisible={isVisible} />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
+            );
+          })}
         </div>
-
-        {/* Removed Professional Metrics section */}
       </div>
     </section>
   );
+};
+
+const getBorderColorClass = (color: string) => {
+  switch (color) {
+    case "electric-blue":
+      return "border-electric-blue/30";
+    case "plasma-violet":
+      return "border-plasma-violet/30";
+    case "neon-green":
+      return "border-neon-green/30";
+    case "yellow-400":
+      return "border-yellow-400/30";
+    default:
+      return "border-white/10";
+  }
+};
+
+const getActiveBorderColorClass = (color: string) => {
+  switch (color) {
+    case "electric-blue": return "border-electric-blue/50";
+    case "plasma-violet": return "border-plasma-violet/50";
+    case "neon-green": return "border-neon-green/50";
+    case "yellow-400": return "border-yellow-400/50";
+    default: return "border-white/20";
+  }
+};
+
+const getActiveShadowClass = (color: string) => {
+  switch (color) {
+    case "electric-blue":
+      return "shadow-[0_0_25px_rgba(0,217,255,0.25)]";
+    case "plasma-violet":
+      return "shadow-[0_0_25px_rgba(157,78,221,0.25)]";
+    case "neon-green":
+      return "shadow-[0_0_25px_rgba(57,255,20,0.25)]";
+    case "yellow-400":
+      return "shadow-[0_0_25px_rgba(250,204,21,0.25)]";
+    default:
+      return "shadow-none";
+  }
+};
+
+const getActiveBgClass = (_color: string) => {
+  return "bg-transparent";
 };
 
 export default SkillsSection;

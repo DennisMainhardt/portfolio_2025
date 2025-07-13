@@ -1,5 +1,5 @@
 
-import { LucideIcon } from "lucide-react";
+import { ChevronDown, LucideIcon } from "lucide-react";
 
 interface SkillPathProps {
   path: {
@@ -16,13 +16,13 @@ interface SkillPathProps {
 
 const SkillPath = ({ path, index, isActive, onClick }: SkillPathProps) => {
   const Icon = path.icon;
-  
+
   // Helper function to get background classes based on color and active state
   const getBackgroundClasses = () => {
     if (!isActive) {
       return 'bg-gradient-to-br from-white/5 via-white/2 to-transparent border-white/10 hover:border-white/20';
     }
-    
+
     switch (path.color) {
       case 'electric-blue':
         return 'bg-gradient-to-br from-electric-blue/10 via-electric-blue/5 to-transparent border-electric-blue/30';
@@ -41,7 +41,7 @@ const SkillPath = ({ path, index, isActive, onClick }: SkillPathProps) => {
     if (!isActive) {
       return 'shadow-none group-hover:shadow-lg group-hover:shadow-white/10';
     }
-    
+
     switch (path.color) {
       case 'electric-blue':
         return 'shadow-lg shadow-electric-blue/20';
@@ -60,7 +60,7 @@ const SkillPath = ({ path, index, isActive, onClick }: SkillPathProps) => {
     if (!isActive) {
       return 'bg-white/5 group-hover:bg-white/10';
     }
-    
+
     switch (path.color) {
       case 'electric-blue':
         return 'bg-electric-blue/20 shadow-lg shadow-electric-blue/20';
@@ -79,7 +79,7 @@ const SkillPath = ({ path, index, isActive, onClick }: SkillPathProps) => {
     if (!isActive) {
       return 'text-white group-hover:text-white';
     }
-    
+
     switch (path.color) {
       case 'electric-blue':
         return 'text-electric-blue';
@@ -98,7 +98,7 @@ const SkillPath = ({ path, index, isActive, onClick }: SkillPathProps) => {
     if (!isActive) {
       return 'text-white/50 group-hover:text-white/70';
     }
-    
+
     switch (path.color) {
       case 'electric-blue':
         return 'text-electric-blue/80';
@@ -117,7 +117,7 @@ const SkillPath = ({ path, index, isActive, onClick }: SkillPathProps) => {
     if (!isActive) {
       return 'text-white/60 group-hover:text-white/80';
     }
-    
+
     switch (path.color) {
       case 'electric-blue':
         return 'text-electric-blue';
@@ -134,9 +134,9 @@ const SkillPath = ({ path, index, isActive, onClick }: SkillPathProps) => {
 
   const getArrowColor = () => {
     if (!isActive) {
-      return 'text-white/30 group-hover:text-white/60 group-hover:translate-x-1';
+      return "text-white/30 group-hover:text-white/60";
     }
-    
+
     switch (path.color) {
       case 'electric-blue':
         return 'text-electric-blue translate-x-0';
@@ -147,13 +147,13 @@ const SkillPath = ({ path, index, isActive, onClick }: SkillPathProps) => {
       case 'yellow-400':
         return 'text-yellow-400 translate-x-0';
       default:
-        return 'text-white/30 translate-x-0';
+        return "text-white/30";
     }
   };
 
   const getBorderClasses = () => {
     if (!isActive) return '';
-    
+
     switch (path.color) {
       case 'electric-blue':
         return 'border-electric-blue/50';
@@ -170,7 +170,7 @@ const SkillPath = ({ path, index, isActive, onClick }: SkillPathProps) => {
 
   const getAnimatedBorderClasses = () => {
     if (!isActive) return '';
-    
+
     switch (path.color) {
       case 'electric-blue':
         return 'border-electric-blue animate-pulse';
@@ -184,77 +184,64 @@ const SkillPath = ({ path, index, isActive, onClick }: SkillPathProps) => {
         return '';
     }
   };
-  
-  return (
-    <div
-      className={`group cursor-pointer relative overflow-hidden transition-all duration-500 hover:scale-[1.02] ${
-        isActive ? 'z-10' : 'hover:z-10'
-      }`}
-      onClick={onClick}
-      style={{
-        animationDelay: `${index * 150}ms`
-      }}
-    >
-      {/* Enhanced Background with Gradient */}
-      <div className={`absolute inset-0 rounded-2xl transition-all duration-500 ${getBackgroundClasses()} border backdrop-blur-sm`} />
-      
-      {/* Glow Effect */}
-      <div className={`absolute inset-0 rounded-2xl transition-all duration-500 ${getShadowClasses()}`} />
-      
-      {/* Content */}
-      <div className="relative p-10">
-        <div className="flex items-start gap-6">
-          {/* Enhanced Icon Container */}
-          <div className={`relative p-4 rounded-xl transition-all duration-300 ${getIconContainerClasses()}`}>
-            <Icon className={`w-7 h-7 transition-all duration-300 ${getIconColor()}`} />
-            
-            {/* Icon Glow */}
-            {isActive && (
-              <div className={`absolute inset-0 rounded-xl ${getIconContainerClasses()} blur-md`} />
-            )}
-          </div>
-          
-          {/* Text Content */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-3 mb-2">
-              <h3 className={`text-xl font-bold transition-all duration-300 ${getTextColor()}`}>
-                {path.title}
-              </h3>
-              
-              {/* Active Indicator */}
-              {isActive && !['Frontend Mastery', 'Full-Stack Vision'].includes(path.title) && (
-                <div className={`w-2 h-2 ${getTextColor().replace('text-', 'bg-')} rounded-full animate-pulse`} />
-              )}
-            </div>
-            
-            <p className={`text-sm font-medium mb-4 transition-all duration-300 ${getSubtitleColor()}`}>
-              {path.subtitle}
-            </p>
-            
-            <p className={`text-sm leading-relaxed transition-all duration-300 ${
-              isActive ? 'text-white/90' : 'text-white/70 group-hover:text-white/90'
-            }`}>
-              {path.description}
-            </p>
-          </div>
 
-          {/* Arrow Indicator */}
-          <div className={`transition-all duration-300 ${getArrowColor()}`}>
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </div>
+  const getActiveColorWithOpacity = (inactiveClass: string, activeClass: string) => {
+    if (isActive) {
+      return activeClass.replace('{color}', path.color);
+    }
+    return inactiveClass;
+  };
+
+  return (
+    <div className="group cursor-pointer p-6" onClick={onClick}>
+      <div className="flex items-start gap-5">
+        <div
+          className={`relative p-3 rounded-xl transition-all duration-300
+            ${isActive ? `shadow-lg shadow-${path.color}/25` : ""}
+            bg-black/20`}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-70 rounded-xl" />
+          <Icon
+            className={`relative w-7 h-7 transition-colors duration-300
+              ${getActiveColorWithOpacity(
+              "text-white/60 group-hover:text-white",
+              "text-{color}"
+            )}`}
+          />
+        </div>
+
+        <div className="flex-1 min-w-0 pt-1">
+          <h3
+            className={`text-xl font-bold transition-colors duration-300 ${getActiveColorWithOpacity(
+              "text-white group-hover:text-white",
+              "text-{color}"
+            )}`}
+          >
+            {path.title}
+          </h3>
+          <p
+            className={`text-base font-medium transition-all duration-300 mt-1.5 ${getSubtitleColor()}`}
+          >
+            {path.subtitle}
+          </p>
+        </div>
+
+        <div
+          className={`transition-transform duration-300 pt-1 ${isActive ? "rotate-180" : ""
+            }`}
+        >
+          <ChevronDown
+            className={`w-6 h-6 transition-colors duration-300 ${getActiveColorWithOpacity(
+              "text-white/30 group-hover:text-white/60",
+              "text-{color}"
+            )}`}
+          />
         </div>
       </div>
-
-      {/* Animated Border */}
-      {isActive && (
-        <div className={`absolute inset-0 rounded-2xl border-2 ${getBorderClasses()}`}>
-          <div className={`absolute inset-0 rounded-2xl border ${getAnimatedBorderClasses()}`} />
-        </div>
-      )}
     </div>
   );
 };
 
 export default SkillPath;
+
+
