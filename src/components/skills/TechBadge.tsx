@@ -44,12 +44,25 @@ const getTechIcon = (tech: string): LucideIcon => {
 
 const TechBadge = ({ tech, color }: TechBadgeProps) => {
   const Icon = getTechIcon(tech);
+  
+  const getColorClass = (color: string) => {
+    switch (color) {
+      case "electric-blue": return "text-electric-blue";
+      case "plasma-violet": return "text-plasma-violet";
+      case "neon-green": return "text-neon-green";
+      case "yellow-400": return "text-yellow-400";
+      default: return "text-white";
+    }
+  };
 
   return (
     <div
       className="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-black/20 border border-white/10 hover:border-white/20 hover:bg-black/30 transition-all"
     >
-      <Icon className={`w-4 h-4 text-${color}`} />
+      <Icon 
+        className={`w-4 h-4 ${getColorClass(color)}`} 
+        style={{ width: "16px", height: "16px", flexShrink: 0 }}
+      />
       <span className="text-white/90 font-medium text-base">{tech}</span>
     </div>
   );

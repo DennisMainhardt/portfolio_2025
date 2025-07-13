@@ -9,7 +9,9 @@ import { skillPaths } from "./skills/skillsData";
 const SkillsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [openSkillPaths, setOpenSkillPaths] = useState<number[]>([0]);
+  const [contentHeights, setContentHeights] = useState<Record<number, number>>({});
   const sectionRef = useRef<HTMLDivElement>(null);
+  const contentRefs = useRef<Record<number, HTMLDivElement | null>>({});
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -28,12 +30,44 @@ const SkillsSection = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Measure all content heights after mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      skillPaths.forEach((_, index) => {
+        measureContentHeight(index);
+      });
+    }, 100); // Small delay to ensure content is rendered
+    
+    return () => clearTimeout(timer);
+  }, []);
+
+  const measureContentHeight = (index: number) => {
+    const contentElement = contentRefs.current[index];
+    if (contentElement) {
+      const height = contentElement.scrollHeight;
+      setContentHeights(prev => ({ ...prev, [index]: height }));
+      return height;
+    }
+    return 0;
+  };
+
   const handleSkillClick = (index: number) => {
-    setOpenSkillPaths((prev) =>
-      prev.includes(index)
-        ? prev.filter((i) => i !== index)
-        : [...prev, index]
-    );
+    const isCurrentlyOpen = openSkillPaths.includes(index);
+    
+    if (!isCurrentlyOpen) {
+      // Ensure height is measured before opening
+      if (!contentHeights[index]) {
+        measureContentHeight(index);
+      }
+      
+      // Open after a brief delay to ensure height is calculated
+      setTimeout(() => {
+        setOpenSkillPaths((prev) => [...prev, index]);
+      }, 10);
+    } else {
+      // Close immediately
+      setOpenSkillPaths((prev) => prev.filter((i) => i !== index));
+    }
   };
 
   return (
@@ -95,15 +129,43 @@ const SkillsSection = () => {
                       isActive={isActive}
                       onClick={() => handleSkillClick(index)}
                     />
+                    {/* Hidden content for measurement */}
+                    <div
+                      ref={(el) => {
+                        contentRefs.current[index] = el;
+                      }}
+                      style={{
+                        position: "absolute",
+                        visibility: "hidden",
+                        height: "auto",
+                        width: "100%",
+                        pointerEvents: "none"
+                      }}
+                    >
+                      <SkillDetail 
+                        skill={path} 
+                        isVisible={isVisible} 
+                        onCollapse={() => {}}
+                      />
+                    </div>
+                    
                     <AnimatePresence>
-                      {isActive && (
+                      {isActive && contentHeights[index] && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
+                          animate={{ 
+                            height: contentHeights[index], 
+                            opacity: 1 
+                          }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                          style={{ overflow: "hidden" }}
                         >
-                          <SkillDetail skill={path} isVisible={isVisible} />
+                          <SkillDetail 
+                            skill={path} 
+                            isVisible={isVisible} 
+                            onCollapse={() => handleSkillClick(index)}
+                          />
                         </motion.div>
                       )}
                     </AnimatePresence>
