@@ -39,16 +39,16 @@ const SkillsSection = () => {
   return (
     <section ref={sectionRef} className="py-24 px-4 md:px-8 relative overflow-hidden">
       {/* Background Effects */}
-      <div className="absolute inset-0">
-        <ParticleField isVisible={isVisible} color="electric-blue" />
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-electric-blue/8 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-plasma-violet/6 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-0 w-80 h-80 bg-neon-green/5 rounded-full blur-3xl animate-pulse delay-2000" />
+      <div className="absolute inset-0 z-0">
+        <ParticleField isVisible={isVisible} />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-electric-blue/8 rounded-full blur-3xl animate-pulse pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-plasma-violet/6 rounded-full blur-3xl animate-pulse delay-1000 pointer-events-none" />
+        <div className="absolute top-1/2 left-0 w-80 h-80 bg-neon-green/5 rounded-full blur-3xl animate-pulse delay-2000 pointer-events-none" />
       </div>
 
-      <div className="container mx-auto relative z-10 max-w-4xl">
+      <div className="container mx-auto relative z-10 max-w-4xl pointer-events-none">
         {/* Header */}
-        <div className="text-center mb-16 relative">
+        <div className="text-center mb-16 relative pointer-events-auto">
           <h2 className={`text-5xl md:text-7xl font-bold mb-8 transition-all duration-1000 delay-200 relative ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}>
             <span className="text-gradient bg-gradient-to-r from-electric-blue via-plasma-violet to-neon-green bg-clip-text text-transparent">
@@ -64,46 +64,52 @@ const SkillsSection = () => {
         </div>
 
         {/* Accordion Layout */}
-        <div className="space-y-4">
+        <div className="space-y-4 pointer-events-auto">
           {skillPaths.map((path, index) => {
             const isActive = openSkillPaths.includes(index);
             return (
-              <div
+              <motion.div
                 key={path.title}
-                className={`relative overflow-hidden rounded-2xl transition-all duration-500 border ${isActive
-                  ? getActiveBorderColorClass(path.color) +
-                  " " +
-                  getActiveShadowClass(path.color)
-                  : "border-white/10 hover:border-white/20"
-                  }`}
+                className="relative"
+                whileHover={{ scale: 1.02, y: -4 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
                 <div
-                  className={`absolute inset-0 transition-all duration-500 ${isActive
-                    ? getActiveBgClass(path.color)
-                    : "bg-white/5 opacity-0 group-hover:opacity-100"
-                    }`}
-                />
-                <div className="relative">
-                  <SkillPath
-                    path={path}
-                    index={index}
-                    isActive={isActive}
-                    onClick={() => handleSkillClick(index)}
+                  className={`relative overflow-hidden rounded-2xl transition-all duration-500 border ${isActive
+                    ? getActiveBorderColorClass(path.color) +
+                    " " +
+                    getActiveShadowClass(path.color)
+                    : "border-white/10 hover:border-white/20"
+                    } bg-black/30 backdrop-blur-sm`}
+                >
+                  <div
+                    className={`absolute inset-0 transition-all duration-500 ${isActive
+                      ? getActiveBgClass(path.color)
+                      : "bg-white/5 opacity-0 group-hover:opacity-100"
+                      }`}
                   />
-                  <AnimatePresence>
-                    {isActive && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-                      >
-                        <SkillDetail skill={path} isVisible={isVisible} />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  <div className="relative">
+                    <SkillPath
+                      path={path}
+                      index={index}
+                      isActive={isActive}
+                      onClick={() => handleSkillClick(index)}
+                    />
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                        >
+                          <SkillDetail skill={path} isVisible={isVisible} />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

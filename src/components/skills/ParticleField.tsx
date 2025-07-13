@@ -6,6 +6,8 @@ interface Particle {
   y: number;
   vx: number;
   vy: number;
+  initial_vx: number;
+  initial_vy: number;
   size: number;
   opacity: number;
   color: string;
@@ -13,13 +15,14 @@ interface Particle {
 
 interface ParticleFieldProps {
   isVisible: boolean;
-  color?: string;
+  interactive?: boolean;
 }
 
-const ParticleField = ({ isVisible, color = 'electric-blue' }: ParticleFieldProps) => {
+const ParticleField = ({ isVisible, interactive = true }: ParticleFieldProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const animationRef = useRef<number>();
+  const mouseRef = useRef<{ x: number | null; y: number | null }>({ x: null, y: null });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -28,27 +31,52 @@ const ParticleField = ({ isVisible, color = 'electric-blue' }: ParticleFieldProp
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const handleMouseMove = (event: MouseEvent) => {
+      if (canvas) {
+        const rect = canvas.getBoundingClientRect();
+        mouseRef.current.x = event.clientX - rect.left;
+        mouseRef.current.y = event.clientY - rect.top;
+      }
+    };
+
+    const handleMouseLeave = () => {
+      mouseRef.current.x = null;
+      mouseRef.current.y = null;
+    };
+
     const resizeCanvas = () => {
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const parent = canvas.parentElement;
+      if (parent) {
+        canvas.width = parent.clientWidth;
+        canvas.height = parent.clientHeight;
+      }
     };
 
     const createParticles = () => {
       const particles: Particle[] = [];
-      const particleCount = 20;
+      const particleCount = 250;
+      const colors = [
+        "0, 217, 255",   // electric-blue
+        "157, 78, 221",  // plasma-violet
+        "57, 255, 20",   // neon-green
+        "250, 204, 21",  // yellow-400
+      ];
 
       for (let i = 0; i < particleCount; i++) {
+        const initial_vx = (Math.random() - 0.5) * 0.5;
+        const initial_vy = (Math.random() - 0.5) * 0.5;
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: (Math.random() - 0.5) * 0.5,
+          vx: initial_vx,
+          vy: initial_vy,
+          initial_vx,
+          initial_vy,
           size: Math.random() * 2 + 0.5,
           opacity: Math.random() * 0.3 + 0.1,
-          color: color === 'electric-blue' ? '0, 217, 255' :
-            color === 'plasma-violet' ? '157, 78, 221' :
-              color === 'neon-green' ? '57, 255, 20' : '255, 255, 255'
+          color: colors[Math.floor(Math.random() * colors.length)],
         });
       }
       return particles;
@@ -63,6 +91,26 @@ const ParticleField = ({ isVisible, color = 'electric-blue' }: ParticleFieldProp
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       particlesRef.current.forEach(particle => {
+        // Mouse interaction
+        if (interactive && mouseRef.current.x !== null && mouseRef.current.y !== null) {
+          const dx = particle.x - mouseRef.current.x;
+          const dy = particle.y - mouseRef.current.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          const forceDirectionX = dx / distance;
+          const forceDirectionY = dy / distance;
+          const maxDistance = 100;
+          const force = (maxDistance - distance) / maxDistance;
+
+          if (distance < maxDistance) {
+            particle.vx += forceDirectionX * force * 0.1;
+            particle.vy += forceDirectionY * force * 0.1;
+          }
+        }
+
+        // Return to base velocity instead of applying friction
+        particle.vx += (particle.initial_vx - particle.vx) * 0.01;
+        particle.vy += (particle.initial_vy - particle.vy) * 0.01;
+
         particle.x += particle.vx;
         particle.y += particle.vy;
 
@@ -103,21 +151,29 @@ const ParticleField = ({ isVisible, color = 'electric-blue' }: ParticleFieldProp
     particlesRef.current = createParticles();
     animate();
 
+    if (interactive) {
+      window.addEventListener('mousemove', handleMouseMove);
+      canvas.addEventListener('mouseleave', handleMouseLeave);
+    }
     window.addEventListener('resize', resizeCanvas);
 
     return () => {
+      if (interactive) {
+        window.removeEventListener('mousemove', handleMouseMove);
+        canvas.removeEventListener('mouseleave', handleMouseLeave);
+      }
       window.removeEventListener('resize', resizeCanvas);
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isVisible, color]);
+  }, [isVisible, interactive]);
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-none"
-      style={{ opacity: isVisible ? 1 : 0 }}
+      className="absolute inset-0"
+      style={{ opacity: isVisible ? 1 : 0, transition: 'opacity 1s ease-in-out' }}
     />
   );
 };
