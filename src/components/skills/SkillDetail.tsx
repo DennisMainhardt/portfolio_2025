@@ -1,5 +1,9 @@
 
-import { LucideIcon, Star, TrendingUp, Target, Zap, Code, Database, Palette, Users } from "lucide-react";
+import {
+  LucideIcon, Star, TrendingUp, Target, Zap, Code, Database, Palette, Users,
+  Component, Settings, Eye, Smartphone, Brain, MessageSquare, Sparkles,
+  FolderOpen, Server, Shield, Lock, GitBranch, TestTube, FileCheck, UserCheck
+} from "lucide-react";
 import TechBadge from "./TechBadge";
 import AnimatedProgressBar from "./AnimatedProgressBar";
 import ParticleField from "./ParticleField";
@@ -20,22 +24,22 @@ const getSkillSpecificContent = (title: string) => {
     "Frontend Mastery": {
       specialization: "React + TypeScript applications",
       focusAreas: ["React Components", "State Management", "UI/UX", "Responsive Design"],
-      icons: [Code, Palette, Zap, Target]
+      icons: [Component, Settings, Eye, Smartphone]
     },
     "AI Integration": {
       specialization: "Intelligent User Experiences",
       focusAreas: ["LLM Integration", "Prompt Engineering", "AI-Powered Features", "Context Management"],
-      icons: [Star, Zap, Target, Code]
+      icons: [Brain, MessageSquare, Sparkles, FolderOpen]
     },
     "Full-Stack Vision": {
       specialization: "Building complete applications",
       focusAreas: ["API Development", "Database Integration", "Authentication", "Backend Logic"],
-      icons: [Database, Code, Target, Users]
+      icons: [Server, Database, Shield, Code]
     },
     "Professional Workflow": {
       specialization: "Professional development standards",
       focusAreas: ["Code Review", "Version Control", "Testing Practices", "Team Collaboration"],
-      icons: [Zap, Target, Code, Users]
+      icons: [FileCheck, GitBranch, TestTube, UserCheck]
     }
   };
 
@@ -107,7 +111,7 @@ const SkillDetail = ({ skill, isVisible }: SkillDetailProps) => {
   };
 
   return (
-    <div className="relative overflow-hidden group h-full min-h-full flex flex-col transition-all duration-500 hover:scale-[1.02]">
+    <div className="relative overflow-hidden group h-full flex flex-col transition-all duration-500 hover:scale-[1.02]">
       {/* Enhanced Background matching SkillPath style */}
       <div className={`absolute inset-0 rounded-2xl transition-all duration-500 ${getBackgroundClasses()} border backdrop-blur-sm`} />
 
@@ -130,20 +134,20 @@ const SkillDetail = ({ skill, isVisible }: SkillDetailProps) => {
             {skill.title}
           </h3>
 
-          <p className={`text-${skill.color} font-semibold text-lg mb-4 leading-relaxed`}>
+          <p className={`text-${skill.color} font-semibold text-lg mb-2 leading-relaxed`}>
             {content.specialization}
           </p>
         </div>
 
         {/* Current Focus Areas */}
-        <div className="mb-6 flex-1">
+        <div className="mb-6">
           <div className="flex items-center gap-3 mb-4">
             <Target className={`w-5 h-5 text-${skill.color}`} />
             <h4 className="text-white font-bold text-lg">Focus Areas</h4>
             <div className={`h-px flex-1 bg-gradient-to-r from-${skill.color}/50 to-transparent`} />
           </div>
 
-          <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="grid grid-cols-2 gap-3 mb-3">
             {content.focusAreas.map((area, index) => {
               const IconComponent = content.icons[index] || Target;
               return (
@@ -163,7 +167,7 @@ const SkillDetail = ({ skill, isVisible }: SkillDetailProps) => {
         </div>
 
         {/* Technologies Grid */}
-        <div className="mb-6">
+        <div className="flex-1">
           <div className="flex items-center gap-3 mb-4">
             <TrendingUp className={`w-5 h-5 text-${skill.color}`} />
             <h4 className="text-white font-bold text-lg">Core Technologies</h4>

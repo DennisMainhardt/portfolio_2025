@@ -84,22 +84,6 @@ const TechBadge = ({ tech, color, index, isVisible }: TechBadgeProps) => {
           {tech}
         </span>
         
-        {/* Proficiency Indicator */}
-        <div className="flex gap-1 ml-auto">
-          {[...Array(3)].map((_, i) => (
-            <div
-              key={i}
-              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                isVisible 
-                  ? `bg-${color} animate-pulse` 
-                  : 'bg-white/20 group-hover/tech:bg-white/40'
-              }`}
-              style={{
-                animationDelay: `${(index * 100) + (i * 100)}ms`
-              }}
-            />
-          ))}
-        </div>
       </div>
 
       {/* Glow Effect */}

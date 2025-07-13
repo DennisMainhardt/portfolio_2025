@@ -202,7 +202,7 @@ const SkillPath = ({ path, index, isActive, onClick }: SkillPathProps) => {
       <div className={`absolute inset-0 rounded-2xl transition-all duration-500 ${getShadowClasses()}`} />
       
       {/* Content */}
-      <div className="relative p-8">
+      <div className="relative p-10">
         <div className="flex items-start gap-6">
           {/* Enhanced Icon Container */}
           <div className={`relative p-4 rounded-xl transition-all duration-300 ${getIconContainerClasses()}`}>
@@ -222,12 +222,12 @@ const SkillPath = ({ path, index, isActive, onClick }: SkillPathProps) => {
               </h3>
               
               {/* Active Indicator */}
-              {isActive && (
+              {isActive && !['Frontend Mastery', 'Full-Stack Vision'].includes(path.title) && (
                 <div className={`w-2 h-2 ${getTextColor().replace('text-', 'bg-')} rounded-full animate-pulse`} />
               )}
             </div>
             
-            <p className={`text-sm font-medium mb-3 transition-all duration-300 ${getSubtitleColor()}`}>
+            <p className={`text-sm font-medium mb-4 transition-all duration-300 ${getSubtitleColor()}`}>
               {path.subtitle}
             </p>
             
