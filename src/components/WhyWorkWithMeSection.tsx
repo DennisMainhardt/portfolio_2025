@@ -13,7 +13,7 @@ const benefits: Benefit[] = [
   {
     icon: <Palette className="w-8 h-8 text-electric-blue" />,
     title: "Frontend Passion",
-    description: "I'm genuinely passionate about creating beautiful, intuitive interfaces. Every pixel matters to me, and I find joy in crafting experiences that make users smile.",
+    description: "I actually enjoy making interfaces that feel right to use. When everything clicks and users don't have to think about it",
   },
   {
     icon: <Rocket className="w-8 h-8 text-neon-green" />,
@@ -23,12 +23,12 @@ const benefits: Benefit[] = [
   {
     icon: <Bot className="w-8 h-8 text-plasma-violet" />,
     title: "AI Future Vision",
-    description: "AI is essential for staying competitive in development today. I see AI integration in web applications becoming standard practice, and I'm actively building experience in this direction.",
+    description: "AI is becoming standard in development today, so I'm building real projects and experiences around that",
   },
   {
     icon: <BookOpen className="w-8 h-8 text-yellow-400" />,
     title: "Growth Mindset",
-    description: "I embrace feedback and see every challenge as an opportunity to grow. Constructive criticism makes me better at what I do.",
+    description: "I don't pretend to know everything, but I learn fast and embrace feedback. I'd rather admit gaps and figure it out than fake expertise.",
   },
 ];
 
@@ -69,7 +69,7 @@ const WhyWorkWithMeSection = () => {
             className="text-4xl md:text-5xl font-bold text-center mb-16"
             variants={itemVariants}
           >
-            Why Work With Me?
+            Why Me?
           </motion.h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16 max-w-4xl mx-auto">

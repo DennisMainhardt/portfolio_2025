@@ -73,7 +73,7 @@ const AboutSection = () => {
             {/* About Text */}
             <div className="space-y-8">
               <p className="text-lg md:text-xl text-white/90" style={{ lineHeight: '1.8' }}>
-                I'm honestly the type of person who gets way too excited about small wins like when I finally fix something that's been bugging me for days. I love building things with <span className="text-electric-blue font-semibold">React</span> and <span className="text-electric-blue font-semibold">TypeScript</span>, and I'm currently obsessing over <span className="text-plasma-violet font-semibold">AI</span> possibilities in real-world projects
+                There's something satisfying about those small wins, you know, when you finally fix that one thing that's been nagging at you for days. I love building things with <span className="text-electric-blue font-semibold">React</span> and <span className="text-electric-blue font-semibold">TypeScript</span>, and I'm currently obsessing over <span className="text-plasma-violet font-semibold">AI</span> possibilities in real-world projects
               </p>
 
               <p className="text-lg md:text-xl text-white/85" style={{ lineHeight: '1.8' }}>
@@ -102,7 +102,7 @@ const AboutSection = () => {
                       src="/dennismainhardt.jpg"
                       alt="Dennis Mainhardt - Frontend Developer"
                       className="w-full h-full object-cover object-center scale-105 transition-transform duration-500 ease-out group-hover:scale-110"
-                      style={{ 
+                      style={{
                         imageRendering: 'crisp-edges',
                         backfaceVisibility: 'hidden'
                       }}

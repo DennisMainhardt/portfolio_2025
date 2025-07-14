@@ -143,10 +143,10 @@ const HeroSection = () => {
           </div>
 
         </div>
-        
+
         {/* Scroll Indicator */}
         <div
-          className="absolute bottom-1/4 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer"
+          className="absolute bottom-20 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer"
           onClick={scrollToAbout}
         >
           <ArrowDown className="h-6 w-6 text-white/40 hover:text-white/80 transition-colors" />

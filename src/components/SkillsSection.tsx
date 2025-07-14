@@ -91,9 +91,8 @@ const SkillsSection = () => {
           </h2>
           <p className={`text-base sm:text-lg text-white/80 max-w-3xl mx-auto leading-relaxed transition-all duration-1000 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}>
-            Where <span className="text-electric-blue font-bold">frontend mastery</span> meets{' '}
-            <span className="text-plasma-violet font-bold">AI innovation</span> —{' '}
-            delivering cutting-edge solutions that drive business growth
+            Building things with <span className="text-electric-blue font-bold">React</span> and <span className="text-electric-blue font-bold">TypeScript</span>{' '}
+            that people actually want to use, plus experimenting with <span className="text-plasma-violet font-bold">AI</span> to make them even better.
           </p>
         </div>
 

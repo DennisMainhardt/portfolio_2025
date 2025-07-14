@@ -121,7 +121,7 @@ const ProjectsSection = () => {
 
           <p className={`max-w-2xl mx-auto text-base md:text-lg text-white/70 mb-8 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}>
-            A showcase of my best work in frontend development and AI integration
+            Real projects demonstrating React, TypeScript, and AI implementation
           </p>
 
           {/* Filter Buttons */}
@@ -134,8 +134,12 @@ const ProjectsSection = () => {
                     onClick={() => setActiveFilter(filter)}
                     variant="outline"
                     className={`rounded-full px-6 py-2 text-sm transition-all duration-300 flex-shrink-0 ${activeFilter === filter
-                      ? filterStyles[filter]
-                      : 'border-white/10 text-white/60 hover:border-white/40 hover:text-white hover:bg-transparent'
+                        ? filterStyles[filter]
+                        : `border-white/10 text-white/60 hover:text-white ${filter === 'Frontend' ? 'hover:border-electric-blue hover:bg-electric-blue/10' :
+                          filter === 'AI' ? 'hover:border-plasma-violet hover:bg-plasma-violet/10' :
+                            filter === 'Fullstack' ? 'hover:border-neon-green hover:bg-neon-green/10' :
+                              'hover:border-white/40 hover:bg-white/10'
+                        }`
                       }`}
                   >
                     {filter}

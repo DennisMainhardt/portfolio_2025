@@ -22,7 +22,7 @@ const ContactSection = () => {
                 Let's Build Something Amazing
               </h2>
               <p className="text-lg text-white/70 max-w-2xl mx-auto mb-8">
-                Have a project in mind or just want to connect? I'm always open to new opportunities and collaborations.
+                Seeking frontend positions using React, TypeScript, and AI. Open to roles with full-stack growth potential.
               </p>
 
               <div className="flex flex-wrap justify-center gap-4 mb-10">

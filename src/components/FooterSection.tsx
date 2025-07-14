@@ -56,7 +56,7 @@ const FooterSection = () => {
           <motion.div className="flex items-center gap-4" variants={itemVariants}>
             <Check className="w-8 h-8 text-neon-green animate-subtle-neon-glow" />
             <span className="text-xl md:text-3xl font-semibold">
-              Available for new projects
+              Available for new opportunities
             </span>
           </motion.div>
 
@@ -86,7 +86,7 @@ const FooterSection = () => {
             className="text-lg md:text-3xl italic text-white/80 max-w-3xl"
             variants={itemVariants}
           >
-            "The best way to predict the future is to create it."
+            "Always learning, always building, always improving."
           </motion.blockquote>
 
           {/* Copyright */}
