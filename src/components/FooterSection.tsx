@@ -1,110 +1,106 @@
 
-import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { Check } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
 
 const FooterSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   const techTags = [
-    "Remote Work",
-    "AI Integration", 
-    "React/TypeScript",
-    "Full Stack"
+    "Frontend",
+    "Backend",
+    "Artificial Intelligence",
+    "Agile"
   ];
 
-  return (
-    <footer ref={sectionRef} className="py-20 px-4 md:px-8 relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-radial from-electric-blue/4 via-plasma-violet/2 to-transparent blur-3xl" />
-        <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-radial from-neon-green/3 to-transparent blur-3xl" />
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-radial from-plasma-violet/3 to-transparent blur-3xl" />
-      </div>
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1,
+      },
+    },
+  };
 
-      <div className="container mx-auto relative z-10 max-w-4xl">
-        {/* Availability Banner */}
-        <div className={`text-center mb-12 transition-all duration-1000 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}>
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <div className="relative">
-              <Check className="w-6 h-6 text-neon-green animate-pulse" />
-              <div className="absolute inset-0 bg-neon-green/30 rounded-full blur-md animate-pulse" />
-            </div>
-            <span className="text-xl md:text-2xl font-semibold text-white">
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring" as const,
+        stiffness: 100,
+        damping: 12,
+      },
+    },
+  };
+
+  const badgeColors: { [key: string]: { hover: string; border: string } } = {
+    Frontend: { hover: "hover:bg-electric-blue/10", border: "hover:border-electric-blue" },
+    Backend: { hover: "hover:bg-neon-green/10", border: "hover:border-neon-green" },
+    "Artificial Intelligence": { hover: "hover:bg-plasma-violet/10", border: "hover:border-plasma-violet" },
+    Agile: { hover: "hover:bg-yellow-400/10", border: "hover:border-yellow-400" },
+  };
+
+  return (
+    <footer className="py-20 md:py-32 bg-deep-black text-white">
+      <motion.div
+        className="container mx-auto px-4 max-w-4xl"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        <div className="flex flex-col items-center text-center space-y-10">
+
+          {/* Availability */}
+          <motion.div className="flex items-center gap-4" variants={itemVariants}>
+            <Check className="w-8 h-8 text-neon-green animate-subtle-neon-glow" />
+            <span className="text-xl md:text-3xl font-semibold">
               Available for new projects
             </span>
-          </div>
+          </motion.div>
 
           {/* Tech Tags */}
-          <div className="flex flex-wrap justify-center gap-4">
-            {techTags.map((tag, index) => (
+          <motion.div
+            className="flex flex-wrap justify-center gap-3 sm:gap-4"
+            variants={itemVariants}
+          >
+            {techTags.map((tag) => (
               <div
                 key={tag}
-                className={`group relative px-6 py-3 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm transition-all duration-500 hover:border-electric-blue/30 hover:bg-white/10 ${
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
-                }`}
-                style={{ transitionDelay: `${index * 100}ms` }}
+                className={`px-6 py-3 rounded-full bg-white/5 border border-white/10 text-base text-white/80 transition-colors duration-300 ${badgeColors[tag]?.hover} ${badgeColors[tag]?.border}`}
               >
-                <span className="text-white/90 font-medium text-sm md:text-base">
-                  {tag}
-                </span>
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-electric-blue/10 to-plasma-violet/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl" />
+                {tag}
               </div>
             ))}
-          </div>
-        </div>
+          </motion.div>
 
-        {/* Gradient Divider */}
-        <div className={`mb-12 transition-all duration-1000 delay-300 ${
-          isVisible ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'
-        }`}>
-          <Separator className="h-px bg-gradient-to-r from-transparent via-electric-blue/50 to-transparent" />
-        </div>
+          {/* Divider */}
+          <motion.div
+            className="w-full max-w-md h-px bg-gradient-to-r from-transparent via-electric-blue/50 to-transparent"
+            variants={itemVariants}
+          ></motion.div>
 
-        {/* Signature Quote */}
-        <div className={`text-center mb-12 transition-all duration-1000 delay-500 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}>
-          <p className="text-xl md:text-2xl lg:text-3xl italic text-white/90 leading-relaxed max-w-3xl mx-auto font-light">
-            "Let's create beautiful, performant web experiences — built with precision, purpose, and personality."
-          </p>
-        </div>
+          {/* Quote */}
+          <motion.blockquote
+            className="text-lg md:text-3xl italic text-white/80 max-w-3xl"
+            variants={itemVariants}
+          >
+            "The best way to predict the future is to create it."
+          </motion.blockquote>
 
-        {/* Final Line */}
-        <div className={`text-center transition-all duration-1000 delay-700 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}>
-          <p className="text-white/60 text-sm md:text-base mb-2">
-            © 2025 Dennis Mainhardt. Built with React, TypeScript & Tailwind CSS.
-          </p>
-          <p className="text-white/40 text-xs md:text-sm">
-            Designed & Developed by me
-          </p>
-        </div>
-      </div>
+          {/* Copyright */}
+          <motion.div className="pt-8 text-center" variants={itemVariants}>
+            <p className="text-base text-white/60">
+              © 2025 Dennis Mainhardt. Built with React, TypeScript & Tailwind CSS.
+            </p>
+            <p className="text-sm text-white/40 mt-1">
+              Designed & Developed by me
+            </p>
+          </motion.div>
 
-      {/* Decorative Elements */}
-      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        </div>
+      </motion.div>
     </footer>
   );
 };
