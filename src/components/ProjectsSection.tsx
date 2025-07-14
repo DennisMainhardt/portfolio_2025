@@ -13,62 +13,51 @@ const ProjectsSection = () => {
   const filters = ["All", "Frontend", "AI", "Fullstack"];
 
   const filterStyles: { [key: string]: string } = {
-    "All": "bg-white text-black font-semibold border-transparent hover:bg-white/90",
-    "Frontend": "bg-electric-blue text-black font-semibold border-transparent hover:bg-electric-blue/90",
-    "AI": "bg-plasma-violet text-white font-semibold border-transparent hover:bg-plasma-violet/90",
-    "Fullstack": "bg-neon-green text-black font-semibold border-transparent hover:bg-neon-green/90",
+    "All": "border-white text-white font-semibold bg-white/20 hover:bg-white/30",
+    "Frontend": "border-electric-blue text-electric-blue font-semibold bg-electric-blue/10 hover:bg-electric-blue/20",
+    "AI": "border-plasma-violet text-plasma-violet font-semibold bg-plasma-violet/10 hover:bg-plasma-violet/20",
+    "Fullstack": "border-neon-green text-neon-green font-semibold bg-neon-green/10 hover:bg-neon-green/20",
   };
 
   const projects = [
     {
       id: 1,
-      title: "AI Content Generator",
-      description: "A React-based content generation platform using OpenAI's GPT-4, featuring real-time collaboration and advanced prompt engineering.",
-      image: "/api/placeholder/600/400",
-      tags: ["React", "TypeScript", "OpenAI", "Node.js"],
-      category: "AI",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com",
+      title: "Bestii",
+      description: "AI-powered chat platform that feels like texting your most emotionally intelligent best friend.",
+      image: "bestii.webp",
+      tags: ["React", "TypeScript", "Firebase", "OpenAI", "Anthropic Claude", "Vite"],
+      category: ["Fullstack", "AI", "Frontend"],
+      liveUrl: "https://bestii.me",
+      githubUrl: "https://github.com/DennisMainhardt/bestii",
       featured: true
     },
     {
       id: 2,
-      title: "E-commerce Dashboard",
-      description: "Modern admin dashboard with advanced analytics, inventory management, and AI-powered sales predictions.",
-      image: "/api/placeholder/600/400",
-      tags: ["Next.js", "Tailwind", "Chart.js", "PostgreSQL"],
-      category: "Fullstack",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com",
-      featured: true
-    },
-    {
-      id: 3,
-      title: "Design System Library",
-      description: "Comprehensive component library with 50+ reusable components, built with Storybook and automated testing.",
-      image: "/api/placeholder/600/400",
-      tags: ["React", "Storybook", "Jest", "Chromatic"],
-      category: "Frontend",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com",
+      title: "LCN Beauty Center",
+      description: "Modern, responsive website for a professional local beauty salon located in Germany.",
+      image: "lcn.webp",
+      tags: ["React", "TypeScript", "Tailwind CSS", "Shadcn UI", "Vite"],
+      category: ["Frontend"],
+      liveUrl: "https://lcn-elegance-portal.vercel.app/",
+      githubUrl: "https://github.com/DennisMainhardt/lcn-elegance-portal",
       featured: false
     },
     {
-      id: 4,
-      title: "Smart Finance Tracker",
-      description: "Personal finance app with AI categorization, predictive budgeting, and beautiful data visualizations.",
-      image: "/api/placeholder/600/400",
-      tags: ["React Native", "Python", "TensorFlow", "Firebase"],
-      category: "AI",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com",
-      featured: true
-    }
+      id: 3,
+      title: "Haarstudio Hilden",
+      description: "Modern, responsive website for a professional local hair salon located in Germany.",
+      image: "haarstudio.webp",
+      tags: ["React", "TypeScript", "Tailwind CSS", "Shadcn UI", "Vite"],
+      category: ["Frontend"],
+      liveUrl: "https://haarstudio-hilden.vercel.app/",
+      githubUrl: "https://github.com/DennisMainhardt/haarstudio-hilden",
+      featured: false
+    },
   ];
 
   const filteredProjects = activeFilter === "All"
     ? projects
-    : projects.filter(project => project.category === activeFilter);
+    : projects.filter(project => project.category.includes(activeFilter));
 
   const checkScrollability = () => {
     const el = scrollContainerRef.current;
@@ -166,18 +155,18 @@ const ProjectsSection = () => {
             onClick={() => scroll('left')}
             variant="outline"
             size="icon"
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-30 glass-card border-white/20 text-white hover:border-electric-blue hover:text-electric-blue hidden md:flex"
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-30 h-10 w-10 rounded-full bg-black/20 backdrop-blur-sm border-white/10 text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 scale-100 hover:scale-110 hidden md:flex"
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="h-6 w-6" />
           </Button>
 
           <Button
             onClick={() => scroll('right')}
             variant="outline"
             size="icon"
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-30 glass-card border-white/20 text-white hover:border-electric-blue hover:text-electric-blue hidden md:flex"
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-30 h-10 w-10 rounded-full bg-black/20 backdrop-blur-sm border-white/10 text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 scale-100 hover:scale-110 hidden md:flex"
           >
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-6 w-6" />
           </Button>
 
           {/* Projects Scroll Container */}
@@ -193,10 +182,8 @@ const ProjectsSection = () => {
                   }`}
               >
                 {/* Project Image */}
-                <div className="relative overflow-hidden h-48 bg-gradient-to-br from-electric-blue/20 to-plasma-violet/20">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-6xl opacity-20">💻</div>
-                  </div>
+                <div className="relative overflow-hidden h-48">
+                  <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
                   {project.featured && (
                     <div className="absolute top-4 right-4 bg-yellow-400/90 text-black px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm">
                       Featured
@@ -228,22 +215,25 @@ const ProjectsSection = () => {
 
                   {/* Links */}
                   <div className="flex gap-3">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="flex-1 border-yellow-400/80 text-yellow-400/90 hover:bg-yellow-400 hover:text-black"
-                    >
-                      <ExternalLink className="mr-2 h-4 w-4" />
-                      Live Demo
-                    </Button>
-
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="border-white/20 text-white/70 hover:border-white/40 hover:text-white hover:bg-transparent"
-                    >
-                      <Github className="h-4 w-4" />
-                    </Button>
+                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="w-full border-yellow-400/80 text-yellow-400/90 hover:bg-yellow-400 hover:text-black"
+                      >
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        Live Demo
+                      </Button>
+                    </a>
+                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="border-white/20 text-white/70 hover:border-white/40 hover:text-white hover:bg-transparent"
+                      >
+                        <Github className="h-4 w-4" />
+                      </Button>
+                    </a>
                   </div>
                 </div>
               </div>
