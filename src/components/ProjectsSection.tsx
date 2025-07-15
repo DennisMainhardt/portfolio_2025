@@ -134,12 +134,12 @@ const ProjectsSection = () => {
                     onClick={() => setActiveFilter(filter)}
                     variant="outline"
                     className={`rounded-full px-6 py-2 text-sm transition-all duration-300 flex-shrink-0 ${activeFilter === filter
-                        ? filterStyles[filter]
-                        : `border-white/10 text-white/60 hover:text-white ${filter === 'Frontend' ? 'hover:border-electric-blue hover:bg-electric-blue/10' :
-                          filter === 'AI' ? 'hover:border-plasma-violet hover:bg-plasma-violet/10' :
-                            filter === 'Fullstack' ? 'hover:border-neon-green hover:bg-neon-green/10' :
-                              'hover:border-white/40 hover:bg-white/10'
-                        }`
+                      ? filterStyles[filter]
+                      : `border-white/10 text-white/60 hover:text-white ${filter === 'Frontend' ? 'hover:border-electric-blue hover:bg-electric-blue/10' :
+                        filter === 'AI' ? 'hover:border-plasma-violet hover:bg-plasma-violet/10' :
+                          filter === 'Fullstack' ? 'hover:border-neon-green hover:bg-neon-green/10' :
+                            'hover:border-white/40 hover:bg-white/10'
+                      }`
                       }`}
                   >
                     {filter}
@@ -197,7 +197,7 @@ const ProjectsSection = () => {
 
                 {/* Project Content */}
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-electric-blue transition-colors">
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-yellow-400 transition-colors">
                     {project.title}
                   </h3>
 
