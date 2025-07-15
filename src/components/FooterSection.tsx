@@ -94,7 +94,7 @@ const FooterSection = () => {
               © 2025 Dennis Mainhardt. Built with React, TypeScript & Tailwind CSS.
             </p>
             <p className="text-xs sm:text-sm text-white/40 mt-1">
-              Designed & Developed by me
+              Designed & Developed with ❤️
             </p>
           </motion.div>
 
