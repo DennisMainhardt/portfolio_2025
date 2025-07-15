@@ -7,7 +7,6 @@ const FooterSection = () => {
     "Frontend",
     "Backend",
     "Artificial Intelligence",
-    "Agile"
   ];
 
   const containerVariants = {
@@ -42,7 +41,7 @@ const FooterSection = () => {
   };
 
   return (
-    <footer className="py-20 md:py-32 bg-deep-black text-white">
+    <footer className="py-16 sm:py-20 md:py-24 bg-deep-black text-white">
       <motion.div
         className="container mx-auto px-4 max-w-4xl"
         variants={containerVariants}
@@ -53,9 +52,9 @@ const FooterSection = () => {
         <div className="flex flex-col items-center text-center space-y-10">
 
           {/* Availability */}
-          <motion.div className="flex items-center gap-4" variants={itemVariants}>
-            <Check className="w-8 h-8 text-neon-green animate-subtle-neon-glow" />
-            <span className="text-xl md:text-3xl font-semibold">
+          <motion.div className="flex items-center gap-3 sm:gap-4" variants={itemVariants}>
+            <Check className="w-6 h-6 md:w-8 md:h-8 flex-shrink-0 text-neon-green animate-subtle-neon-glow" />
+            <span className="whitespace-nowrap text-[1.35rem] sm:text-2xl md:text-3xl font-semibold">
               Available for new opportunities
             </span>
           </motion.div>
@@ -68,7 +67,7 @@ const FooterSection = () => {
             {techTags.map((tag) => (
               <div
                 key={tag}
-                className={`px-6 py-3 rounded-full bg-white/5 border border-white/10 text-base text-white/80 transition-colors duration-300 ${badgeColors[tag]?.hover} ${badgeColors[tag]?.border}`}
+                className={`px-4 py-2 sm:px-6 sm:py-3 rounded-full bg-white/5 border border-white/10 text-sm sm:text-base text-white/80 transition-colors duration-300 ${badgeColors[tag]?.hover} ${badgeColors[tag]?.border}`}
               >
                 {tag}
               </div>
@@ -83,7 +82,7 @@ const FooterSection = () => {
 
           {/* Quote */}
           <motion.blockquote
-            className="text-lg md:text-3xl italic text-white/80 max-w-3xl"
+            className="text-xl md:text-2xl italic text-white/80 max-w-3xl"
             variants={itemVariants}
           >
             "Always learning, always building, always improving."
@@ -91,10 +90,10 @@ const FooterSection = () => {
 
           {/* Copyright */}
           <motion.div className="pt-8 text-center" variants={itemVariants}>
-            <p className="text-base text-white/60">
+            <p className="text-sm sm:text-base text-white/60">
               © 2025 Dennis Mainhardt. Built with React, TypeScript & Tailwind CSS.
             </p>
-            <p className="text-sm text-white/40 mt-1">
+            <p className="text-xs sm:text-sm text-white/40 mt-1">
               Designed & Developed by me
             </p>
           </motion.div>
