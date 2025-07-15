@@ -75,11 +75,6 @@ const HeroSection = () => {
     document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const downloadCV = () => {
-    // Simulate CV download
-    console.log("Downloading CV...");
-  };
-
   return (
     <section className="relative h-screen px-4 md:px-8">
       <div className="container mx-auto text-center z-20 flex flex-col justify-center h-full relative">
@@ -132,14 +127,15 @@ const HeroSection = () => {
               View My Work
             </Button>
 
-            <Button
-              onClick={downloadCV}
-              variant="outline"
-              className="magnetic-button-yellow border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black font-semibold px-8 py-6 text-lg rounded-full transition-all duration-300"
-            >
-              <Download className="mr-2 h-5 w-5" />
-              Download CV
-            </Button>
+            <a href="/cv.pdf" target="_blank" rel="noopener noreferrer">
+              <Button
+                variant="outline"
+                className="magnetic-button-yellow border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black font-semibold px-8 py-6 text-lg rounded-full transition-all duration-300"
+              >
+                <Download className="mr-2 h-5 w-5" />
+                Download CV
+              </Button>
+            </a>
           </div>
 
         </div>
