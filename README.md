@@ -79,14 +79,6 @@ To get a local copy up and running, follow these simple steps.
     ```
     The app will be available at `http://localhost:5173`.
 
----
-
-## 📄 License
-
-This project is licensed under the **MIT License**. See the `LICENSE` file for details. Please feel free to use this code for your own portfolio, but kindly give attribution.
-
----
-
 ## 🎯 About the Developer
 
 Built with ❤️ by [Dennis Mainhardt](https://github.com/DennisMainhardt) — a frontend developer passionate about creating web experiences that are both beautiful and highly functional.
