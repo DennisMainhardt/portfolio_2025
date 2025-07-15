@@ -26,7 +26,7 @@ const ContactSection = () => {
               </p>
 
               <div className="flex flex-wrap justify-center gap-4 mb-10">
-                <a href="mailto:dennis.mainhardt@gmail.com">
+                <a href="mailto:hello@dennismainhardt.com">
                   <Button size="lg" className="bg-white text-black font-semibold hover:bg-white/90">
                     <Mail className="mr-2 h-5 w-5" />
                     Get in Touch
