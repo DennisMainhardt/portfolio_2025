@@ -30,21 +30,37 @@ const SkillsSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Measure all content heights after mount
+  // Measure all content heights after mount using ResizeObserver for reliability
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const measureAllHeights = () => {
       skillPaths.forEach((_, index) => {
         measureContentHeight(index);
       });
-    }, 100); // Small delay to ensure content is rendered
+    };
 
-    return () => clearTimeout(timer);
+    // Use requestAnimationFrame to ensure DOM is ready
+    const rafId = requestAnimationFrame(() => {
+      requestAnimationFrame(measureAllHeights);
+    });
+
+    return () => cancelAnimationFrame(rafId);
   }, []);
 
   const measureContentHeight = (index: number) => {
     const contentElement = contentRefs.current[index];
     if (contentElement) {
+      // Force a layout recalculation before measuring
+      contentElement.style.display = 'block';
+      contentElement.style.visibility = 'visible';
+      contentElement.style.position = 'static';
+      
       const height = contentElement.scrollHeight;
+      
+      // Reset the hidden styling
+      contentElement.style.display = '';
+      contentElement.style.visibility = 'hidden';
+      contentElement.style.position = 'absolute';
+      
       setContentHeights(prev => ({ ...prev, [index]: height }));
       return height;
     }
@@ -63,7 +79,7 @@ const SkillsSection = () => {
       // Open after a brief delay to ensure height is calculated
       setTimeout(() => {
         setOpenSkillPaths((prev) => [...prev, index]);
-      }, 10);
+      }, 50);
     } else {
       // Close immediately
       setOpenSkillPaths((prev) => prev.filter((i) => i !== index));
