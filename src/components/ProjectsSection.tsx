@@ -9,6 +9,9 @@ const ProjectsSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isScrollable, setIsScrollable] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStartX, setDragStartX] = useState(0);
+  const [dragStartScrollLeft, setDragStartScrollLeft] = useState(0);
 
   const filters = ["All", "Frontend", "AI", "Fullstack"];
 
@@ -17,6 +20,39 @@ const ProjectsSection = () => {
     "Frontend": "border-electric-blue text-electric-blue font-semibold bg-electric-blue/10 hover:bg-electric-blue/20",
     "AI": "border-plasma-violet text-plasma-violet font-semibold bg-plasma-violet/10 hover:bg-plasma-violet/20",
     "Fullstack": "border-neon-green text-neon-green font-semibold bg-neon-green/10 hover:bg-neon-green/20",
+  };
+
+  const getHoverColorClasses = () => {
+    switch (activeFilter) {
+      case "Frontend":
+        return {
+          text: "group-hover:text-electric-blue",
+          button: "hover:bg-electric-blue/20 hover:border-electric-blue hover:text-electric-blue",
+          arrow: "hover:bg-electric-blue/10 hover:border-electric-blue/20 hover:text-electric-blue",
+          github: "hover:border-electric-blue/40 hover:text-electric-blue"
+        };
+      case "AI":
+        return {
+          text: "group-hover:text-plasma-violet",
+          button: "hover:bg-plasma-violet/20 hover:border-plasma-violet hover:text-plasma-violet",
+          arrow: "hover:bg-plasma-violet/10 hover:border-plasma-violet/20 hover:text-plasma-violet",
+          github: "hover:border-plasma-violet/40 hover:text-plasma-violet"
+        };
+      case "Fullstack":
+        return {
+          text: "group-hover:text-neon-green",
+          button: "hover:bg-neon-green/20 hover:border-neon-green hover:text-neon-green",
+          arrow: "hover:bg-neon-green/10 hover:border-neon-green/20 hover:text-neon-green",
+          github: "hover:border-neon-green/40 hover:text-neon-green"
+        };
+      default: // "All"
+        return {
+          text: "group-hover:text-white",
+          button: "hover:bg-white/30 hover:border-white hover:text-white",
+          arrow: "hover:bg-white/10 hover:border-white/20 hover:text-white",
+          github: "hover:border-white/40 hover:text-white"
+        };
+    }
   };
 
   const projects = [
@@ -109,6 +145,49 @@ const ProjectsSection = () => {
     }
   };
 
+  const handleMouseDown = (e: React.MouseEvent) => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+
+    // Prevent scrubbing if mousedown starts on an image
+    if ((e.target as HTMLElement).tagName === 'IMG') {
+      return;
+    }
+
+    setIsDragging(true);
+    setDragStartX(e.pageX);
+    setDragStartScrollLeft(el.scrollLeft);
+    el.style.cursor = 'grabbing';
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+
+    const el = scrollContainerRef.current;
+    if (!el) return;
+
+    const x = e.pageX;
+    const walk = (x - dragStartX) * 2; // Multiply by 2 for faster scrolling
+    el.scrollLeft = dragStartScrollLeft - walk;
+  };
+
+  const handleMouseUp = () => {
+    const el = scrollContainerRef.current;
+    if (el) {
+      el.style.cursor = 'grab';
+    }
+    setIsDragging(false);
+  };
+
+  const handleMouseLeave = () => {
+    const el = scrollContainerRef.current;
+    if (el) {
+      el.style.cursor = 'grab';
+    }
+    setIsDragging(false);
+  };
+
   return (
     <section id="projects" ref={sectionRef} className="py-20 md:py-24 relative">
       <div className="container mx-auto px-4">
@@ -155,29 +234,37 @@ const ProjectsSection = () => {
           {/* Scroll Fade Indicator */}
 
           {/* Scroll Buttons */}
-          <Button
-            onClick={() => scroll('left')}
-            variant="outline"
-            size="icon"
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-30 h-10 w-10 rounded-full bg-black/20 backdrop-blur-sm border-white/10 text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 scale-100 hover:scale-110 hidden md:flex"
-          >
-            <ChevronLeft className="h-6 w-6" />
-          </Button>
+          {filteredProjects.length > 3 && (
+            <>
+              <Button
+                onClick={() => scroll('left')}
+                variant="outline"
+                size="icon"
+                className={`absolute left-4 top-1/2 -translate-y-1/2 z-30 h-10 w-10 rounded-full bg-black/20 backdrop-blur-sm border-white/10 text-white transition-all duration-300 scale-100 hover:scale-110 hidden md:flex ${getHoverColorClasses().arrow}`}
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </Button>
 
-          <Button
-            onClick={() => scroll('right')}
-            variant="outline"
-            size="icon"
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-30 h-10 w-10 rounded-full bg-black/20 backdrop-blur-sm border-white/10 text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 scale-100 hover:scale-110 hidden md:flex"
-          >
-            <ChevronRight className="h-6 w-6" />
-          </Button>
+              <Button
+                onClick={() => scroll('right')}
+                variant="outline"
+                size="icon"
+                className={`absolute right-4 top-1/2 -translate-y-1/2 z-30 h-10 w-10 rounded-full bg-black/20 backdrop-blur-sm border-white/10 text-white transition-all duration-300 scale-100 hover:scale-110 hidden md:flex ${getHoverColorClasses().arrow}`}
+              >
+                <ChevronRight className="h-6 w-6" />
+              </Button>
+            </>
+          )}
 
           {/* Projects Scroll Container */}
           <div
             ref={scrollContainerRef}
-            className={`flex gap-4 md:gap-8 overflow-x-auto scrollbar-hide py-6 -mx-4 px-6 md:mx-0 md:px-12 ${filteredProjects.length === 1 ? "justify-center md:justify-start" : ""
+            className={`flex gap-4 md:gap-8 overflow-x-auto scrollbar-hide py-6 -mx-4 px-6 md:mx-0 md:px-12 cursor-grab ${isDragging ? 'select-none cursor-grabbing' : ''} ${filteredProjects.length === 1 ? "justify-center md:justify-start" : ""
               }`}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
           >
             {filteredProjects.map((project, index) => (
               <div
@@ -187,7 +274,7 @@ const ProjectsSection = () => {
               >
                 {/* Project Image */}
                 <div className="relative overflow-hidden h-48">
-                  <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                  <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 pointer-events-none" draggable={false} />
                   {project.featured && (
                     <div className="absolute top-4 right-4 bg-yellow-400/90 text-black px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm">
                       Featured
@@ -197,7 +284,7 @@ const ProjectsSection = () => {
 
                 {/* Project Content */}
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-yellow-400 transition-colors">
+                  <h3 className={`text-xl font-bold text-white mb-3 transition-colors ${getHoverColorClasses().text}`}>
                     {project.title}
                   </h3>
 
@@ -223,7 +310,7 @@ const ProjectsSection = () => {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="w-full border-yellow-400/80 text-yellow-400/90 hover:bg-yellow-400 hover:text-black"
+                        className={`w-full border-white/20 text-white/70 transition-colors ${getHoverColorClasses().button}`}
                       >
                         <ExternalLink className="mr-2 h-4 w-4" />
                         Live Demo
@@ -233,7 +320,7 @@ const ProjectsSection = () => {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="border-white/20 text-white/70 hover:border-white/40 hover:text-white hover:bg-transparent"
+                        className={`border-white/20 text-white/70 hover:bg-transparent transition-colors ${getHoverColorClasses().github}`}
                       >
                         <Github className="h-4 w-4" />
                       </Button>
