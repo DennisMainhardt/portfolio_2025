@@ -1,7 +1,9 @@
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { ExternalLink, Github, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import PortfolioFireworks from "@/components/PortfolioFireworks";
+import YouAreHereModal from "@/components/YouAreHereModal";
 
 const ProjectsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -12,6 +14,9 @@ const ProjectsSection = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartX, setDragStartX] = useState(0);
   const [dragStartScrollLeft, setDragStartScrollLeft] = useState(0);
+  const [showFireworks, setShowFireworks] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [surpriseShown, setSurpriseShown] = useState(false);
 
   const filters = ["All", "Frontend", "AI", "Fullstack"];
 
@@ -199,6 +204,35 @@ const ProjectsSection = () => {
     setIsDragging(false);
   };
 
+  const handlePortfolioLiveDemo = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    // Prevent triggering if fireworks are already active
+    if (showFireworks || showModal) {
+      return;
+    }
+
+    // Start fireworks
+    setShowFireworks(true);
+
+    // Show modal during fireworks fade out for seamless transition
+    setTimeout(() => {
+      setShowModal(true);
+    }, 5500);
+  };
+
+  const handleFireworksComplete = useCallback(() => {
+    setShowFireworks(false);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setShowModal(false);
+    // Ensure fireworks are also stopped when modal closes
+    setShowFireworks(false);
+    // Mark surprise as shown after complete experience
+    setSurpriseShown(true);
+  }, []);
+
   return (
     <section id="projects" ref={sectionRef} className="py-20 md:py-24 relative">
       <div className="container mx-auto px-4">
@@ -317,16 +351,32 @@ const ProjectsSection = () => {
 
                   {/* Links */}
                   <div className="flex gap-3">
-                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className={`w-full border-white/20 text-white/70 transition-colors ${getHoverColorClasses().button}`}
-                      >
-                        <ExternalLink className="mr-2 h-4 w-4" />
-                        Live Demo
-                      </Button>
-                    </a>
+                    {project.id === 2 ? (
+                      // Special handling for portfolio project
+                      <div className="flex-1">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className={`w-full border-white/20 text-white/70 transition-colors ${getHoverColorClasses().button}`}
+                          onClick={handlePortfolioLiveDemo}
+                        >
+                          <ExternalLink className="mr-2 h-4 w-4" />
+                          {surpriseShown ? "Have A Great Day! 🙂" : "Ready For A Surprise? 👀"}
+                        </Button>
+                      </div>
+                    ) : (
+                      // Normal handling for other projects
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex-1">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className={`w-full border-white/20 text-white/70 transition-colors ${getHoverColorClasses().button}`}
+                        >
+                          <ExternalLink className="mr-2 h-4 w-4" />
+                          Live Demo
+                        </Button>
+                      </a>
+                    )}
                     <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
                       <Button
                         size="sm"
@@ -343,6 +393,16 @@ const ProjectsSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Fireworks and Modal */}
+      <PortfolioFireworks
+        isActive={showFireworks}
+        onComplete={handleFireworksComplete}
+      />
+      <YouAreHereModal
+        isOpen={showModal}
+        onClose={handleModalClose}
+      />
     </section>
   );
 };
