@@ -69,13 +69,13 @@ const ProjectsSection = () => {
     },
     {
       id: 2,
-      title: "LCN Beauty Center",
-      description: "Modern, responsive website for a professional local beauty salon located in Germany.",
-      image: "lcn.webp",
-      tags: ["React", "TypeScript", "Tailwind CSS", "Shadcn UI", "Vite"],
+      title: "Portfolio",
+      description: "My modern, responsive portfolio website showcasing my projects, skills and personality.",
+      image: "portfolio.webp",
+      tags: ["React", "TypeScript", "Tailwind CSS", "Shadcn UI", "Framer Motion", "Vite"],
       category: ["Frontend"],
-      liveUrl: "https://lcn-elegance-portal.vercel.app/",
-      githubUrl: "https://github.com/DennisMainhardt/lcn-elegance-portal",
+      liveUrl: "https://www.dennismainhardt.com/",
+      githubUrl: "https://github.com/DennisMainhardt/portfolio_2025/",
       featured: false
     },
     {
@@ -87,6 +87,17 @@ const ProjectsSection = () => {
       category: ["Frontend"],
       liveUrl: "https://haarstudio-hilden.vercel.app/",
       githubUrl: "https://github.com/DennisMainhardt/haarstudio-hilden",
+      featured: false
+    },
+    {
+      id: 4,
+      title: "LCN Beauty Center",
+      description: "Modern, responsive website for a professional local beauty salon located in Germany.",
+      image: "lcn.webp",
+      tags: ["React", "TypeScript", "Tailwind CSS", "Shadcn UI", "Vite"],
+      category: ["Frontend"],
+      liveUrl: "https://lcn-elegance-portal.vercel.app/",
+      githubUrl: "https://github.com/DennisMainhardt/lcn-elegance-portal",
       featured: false
     },
   ];
