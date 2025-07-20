@@ -1,6 +1,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Coffee, Lightbulb, Gamepad2, Music, Code } from "lucide-react";
+import { motion } from "framer-motion";
 
 const AboutSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -22,6 +23,35 @@ const AboutSection = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  const slideFromLeft = {
+    hidden: { x: -100, opacity: 0 },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        type: "spring" as const,
+        stiffness: 80,
+        damping: 12,
+        duration: 0.8
+      }
+    }
+  };
+
+  const slideFromRight = {
+    hidden: { x: 100, opacity: 0 },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        type: "spring" as const,
+        stiffness: 80,
+        damping: 12,
+        duration: 0.8,
+        delay: 0.2
+      }
+    }
+  };
 
   const funFacts = [
     {
@@ -72,13 +102,25 @@ const AboutSection = () => {
             }`}>
             {/* About Text */}
             <div className="space-y-8">
-              <p className="text-lg md:text-xl text-white/90" style={{ lineHeight: '1.8' }}>
+              <motion.p
+                className="text-lg md:text-xl text-white/90"
+                style={{ lineHeight: '1.8' }}
+                variants={slideFromLeft}
+                initial="hidden"
+                animate={isVisible ? "visible" : "hidden"}
+              >
                 There's something satisfying about those small wins, you know, when you finally fix that one thing that's been nagging at you for days. I love building things with <span className="text-electric-blue font-semibold">React</span> and <span className="text-electric-blue font-semibold">TypeScript</span>, and I'm currently obsessing over <span className="text-plasma-violet font-semibold">AI</span> possibilities in real-world projects
-              </p>
+              </motion.p>
 
-              <p className="text-lg md:text-xl text-white/85" style={{ lineHeight: '1.8' }}>
+              <motion.p
+                className="text-lg md:text-xl text-white/85"
+                style={{ lineHeight: '1.8' }}
+                variants={slideFromRight}
+                initial="hidden"
+                animate={isVisible ? "visible" : "hidden"}
+              >
                 I don't pretend to have everything figured out, but I genuinely love learning something new every day and getting better at what I do. I'm exploring <span className="text-neon-green font-semibold">full-stack development</span> because I'm curious about how everything works together, and I love working with teams using <span className="text-yellow-400 font-semibold">modern workflows</span> to build things that actually matter.
-              </p>
+              </motion.p>
 
               {/* Personal Statement */}
               <p className="text-lg md:text-xl text-white/85 border-l-4 border-electric-blue/40 pl-6 py-4 bg-gradient-to-r from-electric-blue/5 to-transparent rounded-r-lg mt-10" style={{ lineHeight: '1.8' }}>
