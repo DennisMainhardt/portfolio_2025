@@ -61,7 +61,7 @@ const FooterSection = () => {
 
           {/* Tech Tags */}
           <motion.div
-            className="flex flex-wrap justify-center gap-3 sm:gap-4"
+            className="flex cursor-default flex-wrap justify-center gap-3 sm:gap-4"
             variants={itemVariants}
           >
             {techTags.map((tag) => (

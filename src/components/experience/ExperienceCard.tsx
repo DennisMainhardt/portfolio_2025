@@ -222,7 +222,7 @@ export const ExperienceCard = ({ exp, index, isVisible, isMobile }: ExperienceCa
         tiltMaxAngleX={5}
         tiltMaxAngleY={5}
         transitionSpeed={400}
-        className="relative z-10 group block md:inline-block text-left ml-12 md:ml-0 md:w-[calc(50%-2rem)]"
+        className="relative cursor-default z-10 group block md:inline-block text-left ml-12 md:ml-0 md:w-[calc(50%-2rem)]"
       >
         <div ref={cardRef} className={contentContainerClasses}>
           <div className="absolute inset-0 border-2 border-transparent group-hover:border-plasma-violet/50 rounded-2xl transition-all duration-300 pointer-events-none" />

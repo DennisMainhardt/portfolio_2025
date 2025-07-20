@@ -176,7 +176,7 @@ const AboutSection = () => {
           {funFacts.map((fact, index) => (
             <div
               key={fact.label}
-              className={`group relative transition-all duration-300 hover:scale-105 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              className={`group relative cursor-default transition-all duration-300 hover:scale-105 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                 }`}
               style={{
                 transitionDelay: `${700 + index * 100}ms`
