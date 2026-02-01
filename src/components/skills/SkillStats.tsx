@@ -1,3 +1,5 @@
+"use client";
+
 
 import { Target, Zap, Award, Lightbulb } from "lucide-react";
 

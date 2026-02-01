@@ -1,3 +1,5 @@
+"use client";
+
 
 import { useEffect, useRef, useState } from "react";
 import { Coffee, Lightbulb, Gamepad2, Music, Code } from "lucide-react";

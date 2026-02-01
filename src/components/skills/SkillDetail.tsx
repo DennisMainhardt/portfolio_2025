@@ -1,3 +1,5 @@
+"use client";
+
 
 import {
   LucideIcon, Star, TrendingUp, Target, Zap, Code, Database, Palette, Users,

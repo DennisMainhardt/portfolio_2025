@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect, useRef, useState } from 'react';
-import { Fireworks } from '@fireworks-js/react';
+import { Fireworks, type FireworksHandlers } from '@fireworks-js/react';
 import { motion } from 'framer-motion';
 
 // Mobile detection utility
@@ -16,7 +18,7 @@ interface PortfolioFireworksProps {
 }
 
 const PortfolioFireworks: React.FC<PortfolioFireworksProps> = ({ isActive, onComplete }) => {
-  const fireworksRef = useRef<{ start: () => void; stop: () => void } | null>(null);
+  const fireworksRef = useRef<FireworksHandlers | null>(null);
   const [opacity, setOpacity] = useState(0);
   const [backgroundOpacity, setBackgroundOpacity] = useState(0);
   const [mobile, setMobile] = useState(false);
