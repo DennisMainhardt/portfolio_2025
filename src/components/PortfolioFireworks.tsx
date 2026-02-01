@@ -115,7 +115,7 @@ const PortfolioFireworks: React.FC<PortfolioFireworksProps> = ({ isActive, onCom
             friction: 0.98,
             gravity: 1.5,
             particles: mobile ? 60 : 150, // Reduced particles for mobile
-            trace: mobile ? 2 : 4,         // Shorter traces for mobile
+            traceLength: mobile ? 2 : 4,   // Shorter traces for mobile
             explosion: mobile ? 4 : 8,     // Smaller explosions for mobile
             intensity: mobile ? 20 : 50,   // Lower intensity for mobile
             flickering: 25,
@@ -133,10 +133,6 @@ const PortfolioFireworks: React.FC<PortfolioFireworksProps> = ({ isActive, onCom
             brightness: {
               min: 50,
               max: 80
-            },
-            saturation: {
-              min: 80,
-              max: 100
             },
             decay: {
               min: 0.015,
