@@ -25,6 +25,22 @@ const ExperienceSection = () => {
 
   const experiences = [
     {
+      id: 3,
+      title: "Software Engineer",
+      company: "SOPTIM AG",
+      location: "Remote, Germany",
+      period: "Sep. 2025 - Today",
+      type: "Full-time",
+      description: "Developing and maintaining cloud-based web applications for the energy industry using TypeScript across frontend and backend.",
+      achievements: [
+        "Built frontend applications with React, Next.js, and TypeScript, focusing on performance and usability",
+        "Implementing backend services and APIs on AWS using TypeScript",
+        "Collaborating with cross-functional teams to deliver reliable production systems",
+      ],
+      technologies: ["React", "TypeScript", "Next.js", "REST APIs", "AWS", "Material UI"],
+      companyUrl: "https://www.soptim.de/en/"
+    },
+    {
       id: 1,
       title: "Jr. Front-End Developer",
       company: "publicplan GmbH",
