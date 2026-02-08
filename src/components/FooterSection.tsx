@@ -93,7 +93,7 @@ const FooterSection = () => {
           {/* Copyright */}
           <motion.div className="pt-8 text-center" variants={itemVariants}>
             <p className="text-sm sm:text-base text-white/60">
-              © 2025 Dennis Mainhardt. Built with React, TypeScript & Tailwind CSS.
+              © 2026 Dennis Mainhardt. Built with React, TypeScript & Tailwind CSS.
             </p>
             <p className="text-xs sm:text-sm text-white/40 mt-1">
               Designed & Developed with ❤️
