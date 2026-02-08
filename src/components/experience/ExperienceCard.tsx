@@ -49,21 +49,6 @@ export const ExperienceCard = ({ exp, index, isVisible, isMobile }: ExperienceCa
   const cardRef = useRef<HTMLDivElement>(null);
   const [glarePosition, setGlarePosition] = useState({ x: -100, y: -100 });
 
-  const getTimelineStyles = (cardIndex: number) => {
-    switch (cardIndex) {
-      case 0:
-        return { bg: 'bg-electric-blue', border: 'border-electric-blue', pulseRgb: '0, 217, 255' };
-      case 1:
-        return { bg: 'bg-plasma-violet', border: 'border-plasma-violet', pulseRgb: '157, 78, 221' };
-      case 2:
-        return { bg: 'bg-neon-green', border: 'border-neon-green', pulseRgb: '57, 255, 20' };
-      default:
-        return { bg: 'bg-electric-blue', border: 'border-electric-blue', pulseRgb: '0, 217, 255' };
-    }
-  };
-
-  const timelineStyles = getTimelineStyles(index);
-
   const handleMove = (e: TiltMoveEvent) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
@@ -208,17 +193,11 @@ export const ExperienceCard = ({ exp, index, isVisible, isMobile }: ExperienceCa
 
   const contentContainerClasses = `glass-card-interactive glass-card p-6 rounded-2xl transition-all duration-300 w-full`;
 
-  const dotClasses = `absolute w-3 h-3 ${timelineStyles.bg} rounded-full border-2 left-6 md:left-1/2 transform md:-translate-x-1/2 transition-all duration-300 ${isExpanded ? `scale-110 ${timelineStyles.border} animate-pulse-border` : 'border-deep-black'
-    }`;
-
-  const dotStyle = isExpanded ? { '--pulse-color-rgb': timelineStyles.pulseRgb } as React.CSSProperties : {};
-
   return (
     <div
       className={containerClasses}
       style={{ transitionDelay: `${400 + index * 150}ms` }}
     >
-      <div className={dotClasses} style={dotStyle} />
       <Tilt
         onMove={handleMove}
         tiltMaxAngleX={5}

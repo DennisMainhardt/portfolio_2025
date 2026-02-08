@@ -1,14 +1,27 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { motion, useMotionTemplate, useMotionValue, useTransform } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
 import { ExperienceCard } from "./experience/ExperienceCard";
 
 const ExperienceSection = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [isTimelineVisible, setTimelineVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const timelineRef = useRef<HTMLDivElement>(null);
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+  const timelineProgress = useMotionValue(0);
+  const markerTop = useTransform(timelineProgress, [0, 1], ["0%", "100%"]);
+  const timelineClipPath = useTransform(
+    timelineProgress,
+    (value) => `inset(0 0 ${100 - value * 100}% 0)`
+  );
+  const markerColor = useTransform(
+    timelineProgress,
+    [0, 0.5, 1],
+    ["#00D9FF", "#9D4EDD", "#39FF14"]
+  );
+  const markerGlow = useMotionTemplate`0 0 20px ${markerColor}`;
 
   const experiences = [
     {
@@ -50,7 +63,6 @@ const ExperienceSection = () => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          setTimelineVisible(true);
         }
       },
       { threshold: 0.3 }
@@ -64,6 +76,55 @@ const ExperienceSection = () => {
       observer.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (isMobile) {
+      timelineProgress.set(0);
+      return;
+    }
+
+    let frame: number | null = null;
+    const updateTimelineProgress = () => {
+      const timelineElement = timelineRef.current;
+      if (!timelineElement) return;
+
+      const rect = timelineElement.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const startOffset = viewportHeight * 0.75;
+      const endOffset = viewportHeight * 0.3;
+      const totalDistance = rect.height + startOffset - endOffset;
+      const rawProgress = totalDistance <= 0 ? 0 : (startOffset - rect.top) / totalDistance;
+      const clamped = Math.min(1, Math.max(0, rawProgress));
+
+      timelineProgress.set(clamped);
+    };
+
+    const scheduleUpdate = () => {
+      if (frame !== null) return;
+      frame = window.requestAnimationFrame(() => {
+        frame = null;
+        updateTimelineProgress();
+      });
+    };
+
+    scheduleUpdate();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+
+    const resizeObserver = new ResizeObserver(scheduleUpdate);
+    if (timelineRef.current) {
+      resizeObserver.observe(timelineRef.current);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      resizeObserver.disconnect();
+      if (frame !== null) {
+        window.cancelAnimationFrame(frame);
+      }
+    };
+  }, [isMobile, timelineProgress]);
 
   return (
     <section ref={sectionRef} className="py-20 px-4 md:px-8 relative">
@@ -83,13 +144,26 @@ const ExperienceSection = () => {
 
         {/* Timeline */}
         <div className="max-w-4xl mx-auto">
-          <div className="relative">
+          <div ref={timelineRef} className="relative">
             {/* Timeline Line */}
             {!isMobile && (
-              <div
-                className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 w-0.5 bg-gradient-to-b from-electric-blue via-plasma-violet to-neon-green transition-all duration-1000 ease-in-out"
-                style={{ height: isTimelineVisible ? '100%' : '0%' }}
-              />
+              <>
+                <div className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 w-0.5 h-full bg-white/10 pointer-events-none" />
+                <motion.div
+                  className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-electric-blue via-plasma-violet to-neon-green pointer-events-none"
+                  style={{ clipPath: timelineClipPath }}
+                />
+                <motion.div
+                  className="absolute left-8 md:left-1/2 w-4 h-4 rounded-full border border-deep-black pointer-events-none z-20"
+                  style={{
+                    top: markerTop,
+                    x: "-50%",
+                    y: "-50%",
+                    backgroundColor: markerColor,
+                    boxShadow: markerGlow,
+                  }}
+                />
+              </>
             )}
 
             {/* Experience Items */}
